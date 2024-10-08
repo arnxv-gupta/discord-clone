@@ -9,6 +9,7 @@ import Login from './components/Login.jsx';
 
 function App() {
   return (
+<<<<<<< Updated upstream
 
     <Login/>
     // <div className="flex h-screen bg-discord-light">
@@ -20,6 +21,17 @@ function App() {
     //   </div>
     //   <MemberList />
     // </div>
+=======
+    <div className="flex h-screen bg-[#282828]">
+      <ServerList />
+      <ChannelList />
+      <div className="flex flex-col flex-1">
+        <ChatWindow />
+        <VoiceControls />
+      </div>
+      <MemberList />
+    </div>
+>>>>>>> Stashed changes
   );
 }
 

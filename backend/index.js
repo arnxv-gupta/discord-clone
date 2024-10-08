@@ -92,7 +92,10 @@ app.post("/createServer", (req, res)=>{
 });
 
 app.get("/joinServer/:id", (req, res)=>{
+<<<<<<< Updated upstream
     let data = JSON.parse(fs.readFileSync("./data.json"));
+=======
+>>>>>>> Stashed changes
     
 });
 
