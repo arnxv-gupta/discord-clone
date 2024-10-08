@@ -47,6 +47,7 @@ export default function Auth() {
                         id="password"
                         required
                         className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                    />
                 </div>
                 
                 <button
