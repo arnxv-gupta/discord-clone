@@ -2,8 +2,8 @@ import React from 'react';
 
 const ChatWindow = () => {
   return (
-    <div className="flex-1 bg-discord-light text-white p-6 flex flex-col justify-between">
-      <div className="flex-grow overflow-auto space-y-4 bg-discord-chat p-4 rounded-lg">
+    <div className="flex-1 bg-[#282828] text-white p-6 flex flex-col justify-between">
+      <div className="flex-grow overflow-auto space-y-4 bg-[#282828] p-4 rounded-lg">
         <div className="text-sm font-medium">Welcome to the general chat!</div>
         <div className="text-sm font-medium">Message #1</div>
         <div className="text-sm font-medium">Message #2</div>

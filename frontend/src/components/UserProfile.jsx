@@ -2,7 +2,7 @@ import React from 'react';
 
 const UserProfile = () => {
   return (
-    <div className="bg-discord-dark p-4 text-white">
+    <div className="bg-[#282828] p-4 text-white">
       <div className="flex items-center">
         <div className="w-10 h-10 bg-gray-600 rounded-full"></div>
         <div className="ml-2">

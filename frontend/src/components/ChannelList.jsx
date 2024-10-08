@@ -5,7 +5,7 @@ const voiceChannels = ['General', 'Gaming', 'Study'];
 
 const ChannelList = () => {
   return (
-    <div className="w-64 h-screen bg-discord-light text-gray-300 flex flex-col">
+    <div className="w-64 h-screen bg-[#282828] text-gray-300 flex flex-col">
       <div className="p-4">
         <h2 className="text-lg font-bold text-white mb-4">Server Name</h2>
         <div className="mb-6">
