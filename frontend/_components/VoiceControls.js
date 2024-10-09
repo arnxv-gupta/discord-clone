@@ -2,7 +2,7 @@ import React from 'react';
 
 const VoiceControls = () => {
   return (
-    <div className="bg-discord-dark p-4 text-white flex items-center justify-between">
+    <div className="bg-[#282828] p-4 text-white flex items-center justify-between">
       <div className="flex items-center">
         <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
           <span className="text-xl">🎤</span>

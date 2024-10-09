@@ -1,6 +1,7 @@
+"use client"
+
 import { useEffect, useState } from 'react';
-import backgroundImage from '../assets/CK7JQZ.webp'; 
-import { redirect } from 'react-router-dom';
+// import backgroundImage from '../assets/CK7JQZ.webp'; 
 
 export default function Auth() {
     const [isLogin, setIsLogin] = useState(true)
@@ -19,7 +20,7 @@ export default function Auth() {
     return (
         <div
         className='flex h-screen items-center justify-center bg-cover bg-center'
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+        //style={{ backgroundImage: `url(${backgroundImage})` }}
         >
             <form 
             className='relative w-full max-w-md p-10 space-y-6 bg-white bg-opacity-90 text-gray-900 rounded-md shadow-lg'
