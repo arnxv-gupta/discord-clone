@@ -3,11 +3,15 @@ const app = express();
 const fs = require("fs");
 const uuid = require("uuid");
 const session = require("express-session")
+const cors = require("cors")
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(session({
-    secret:"discord"
+    secret:"discord",
+    saveUninitialized:false,
+    resave: false
 }));
 
 const PORT = 3030;
@@ -49,6 +53,7 @@ app.post("/createAccount", (req, res)=>{
 });
 
 app.post("/loginAccount", (req, res)=>{
+    
     let data = JSON.parse(fs.readFileSync("./data.json"));
     data=data.userData.filter((el)=>{
         return el.email == req.body.email && el.password==req.body.password;
@@ -58,9 +63,27 @@ app.post("/loginAccount", (req, res)=>{
         //error
         res.json({type:"ERROR", msg: `Unable to login! Email or password was invalid.`})
     } else {
+
+        if(!req.session.auth) {
+            console.log(data[0].userID);
+            
+            req.session.auth=data[0].userID;
+        }
+
         res.json({type: "SUCCESS", msg: `Logged in as ${data[0].username} (${data[0].userID}).`, res: data[0].joinedServers});
     }
+
 });
+
+app.get("/getAuth", (req, res)=>{
+    console.log(req.session.auth);
+    
+    if(req.session.auth) {
+        res.json({type: "SUCCESS", msg:"User authenticated.", res: req.session.auth});
+    } else {
+        res.json({type:"ERROR", msg: "User authentication failed!"});
+    }
+})
 
 // server
 
