@@ -6,12 +6,11 @@ import MemberList from "@/_components/MemberList";
 
 
 export default function Channels({params}) {
-        console.log(params);
         
     return (
         <div className="flex">
         <ServerList />
-        <ChannelList />
+        <ChannelList data={params.slug} />
         <ChatWindow />
         <MemberList />
         </div>

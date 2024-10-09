@@ -1,13 +1,14 @@
 "use client"
 import { useRef, useEffect, useState } from "react";
 
-const ChannelList = () => {
+const ChannelList = ({data}) => {
   const [serverInfo, setServerInfo] = useState({channels:[]});
 
+console.log(data);
 
   useEffect(()=>{
   
-      fetch("http://localhost:3030/serverInfo?serverID=5ce593bf-2bc6-4caf-97b5-9cbd9af04a1c").then(res=>res.text()).then(data=>{
+      fetch(`http://localhost:3030/serverInfo?serverID=${data[0]}`).then(res=>res.text()).then(data=>{
         data=JSON.parse(data);
         
         

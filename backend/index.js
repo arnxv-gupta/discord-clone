@@ -2,9 +2,12 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const uuid = require("uuid");
-const session = require("express-session")
-const cors = require("cors")
-const proxy = require('express-http-proxy');
+const session = require("express-session");
+const cors = require("cors");
+const http = require("http");
+const server = http.createServer(app);
+const {Server} = require("socket.io")
+const io = new Server(server);
 
 app.use(cors())
 app.use(express.json());
@@ -99,7 +102,8 @@ app.post("/createServer", (req, res)=>{
         membersList: [req.body.adminID],
         channels: [{
             name:"general",
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            data:[]
         }],
         adminID: req.body.adminID
     }
