@@ -41,6 +41,8 @@ export default function Auth() {
                         body: JSON.stringify(loginObj)
                     }).then(res=>res.json()).then(data=>{
                         alert(data.type + data.msg); 
+                        console.log(data);
+                        
                         if(data.type=="SUCCESS") {
                         localStorage.setItem("userID", data.res);
                         }

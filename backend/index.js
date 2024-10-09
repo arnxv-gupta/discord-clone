@@ -70,7 +70,7 @@ app.post("/loginAccount", (req, res)=>{
         console.log(req.session.auth);
         
 
-        res.json({type: "SUCCESS", msg: `Logged in as ${data[0].username} (${data[0].userID}).`, res: data[0].joinedServers});
+        res.json({type: "SUCCESS", msg: `Logged in as ${data[0].username} (${data[0].userID}).`, res: data[0].userID});
     }
 
 });
@@ -88,6 +88,8 @@ app.get("/getAuth", (req, res)=>{
 // server
 
 app.post("/createServer", (req, res)=>{
+    console.log(req.body);
+    
     let data = JSON.parse(fs.readFileSync("./data.json"));
     
     let serverObj = {
@@ -103,7 +105,7 @@ app.post("/createServer", (req, res)=>{
     }
 
     let pos=data.userData.findIndex((el)=>el.userID==req.body.adminID);
-    //console.log(pos);
+    console.log(serverObj);
 
     if(pos==-1) {
         // error userID not found

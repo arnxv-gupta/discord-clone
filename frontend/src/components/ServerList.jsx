@@ -16,6 +16,9 @@ const ServerList = () => {
       onClick={()=>{
         fetch("http://localhost:3030/createServer", {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({
             name: "Test sercer",
             adminID: localStorage.getItem("userID")
