@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import './index.css'
 import Auth from './pages/Auth'
 import Channel from './pages/Channel'
-import ServerDialogue from './components/ServerDialogue'
+import ServerDialogue from '../_components/ServerDialogue.js'
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: <Channel />
   },
   {
-    path:"/dialogue/",
+    path:"/dialogue",
     element:<ServerDialogue/>
   }
 ]);
