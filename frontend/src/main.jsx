@@ -4,13 +4,18 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import './index.css'
 import Auth from './pages/Auth'
+import Channel from './pages/Channel'
 
 const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth />
+  },
+  {
+    path: "/channel/:id",
+    element: <Channel />
   }
-])
+]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -4,12 +4,13 @@ const fs = require("fs");
 const uuid = require("uuid");
 const session = require("express-session")
 const cors = require("cors")
+const proxy = require('express-http-proxy');
 
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(session({
-    secret:"discord",
+    secret:"disrd",
     saveUninitialized:false,
     resave: false
 }));
@@ -64,11 +65,10 @@ app.post("/loginAccount", (req, res)=>{
         res.json({type:"ERROR", msg: `Unable to login! Email or password was invalid.`})
     } else {
 
-        if(!req.session.auth) {
-            console.log(data[0].userID);
-            
-            req.session.auth=data[0].userID;
-        }
+        req.session.auth=data[0].userID;
+       // req.session.save();
+        console.log(req.session.auth);
+        
 
         res.json({type: "SUCCESS", msg: `Logged in as ${data[0].username} (${data[0].userID}).`, res: data[0].joinedServers});
     }
@@ -95,11 +95,15 @@ app.post("/createServer", (req, res)=>{
         serverIcon: null,
         serverID: uuid.v4(),
         membersList: [req.body.adminID],
+        channels: [{
+            name:"general",
+            createdAt: Date.now()
+        }],
         adminID: req.body.adminID
     }
 
     let pos=data.userData.findIndex((el)=>el.userID==req.body.adminID);
-    console.log(pos);
+    //console.log(pos);
 
     if(pos==-1) {
         // error userID not found
@@ -116,6 +120,7 @@ app.post("/createServer", (req, res)=>{
 
 // app.post("/joinServer", (req, res)=>{
 // });
+
 
 
 app.listen(PORT, ()=>{
