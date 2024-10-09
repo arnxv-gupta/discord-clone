@@ -5,15 +5,15 @@ import { redirect } from 'react-router-dom';
 export default function Auth() {
     const [isLogin, setIsLogin] = useState(true)
 
-    fetch("http://localhost:3030/getAuth").then(res=>res.json()).then(data=>{ 
-        console.log(data);
+    // fetch("http://localhost:3030/getAuth").then(res=>res.json()).then(data=>{ 
+    //     console.log(data);
                    
-            if(data.type=="SUCCESS") {
-                console.log("User authenticated!");
+    //         if(data.type=="SUCCESS") {
+    //             console.log("User authenticated!");
 
-                return redirect("/")
-            }
-    })
+    //             return redirect("/")
+    //         }
+    // })
   
 
     return (
@@ -41,15 +41,9 @@ export default function Auth() {
                         body: JSON.stringify(loginObj)
                     }).then(res=>res.json()).then(data=>{
                         alert(data.type + data.msg); 
-                        fetch("http://localhost:3030/getAuth").then(res=>res.json()).then(data=>{ 
-                            console.log(data);
-                                       
-                                if(data.type=="SUCCESS") {
-                                    console.log("User authenticated!");
-                    
-                                    return redirect("/")
-                                }
-                        })                       
+                        if(data.type=="SUCCESS") {
+                        localStorage.setItem("userID", data.res);
+                        }
                     })
 
 
@@ -70,7 +64,7 @@ export default function Auth() {
                         alert(data.type + data.msg);
                         
                     })                    
-                }
+                }   
             }}
             >
                 <h2 className='text-4xl font-bold text-center text-gray-800'>
