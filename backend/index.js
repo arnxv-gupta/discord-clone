@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
-const uuid = require("uuid");
+const { customAlphabet } = require('nanoid')
 const session = require("express-session");
 const cors = require("cors");
 const http = require("http");
@@ -42,7 +42,7 @@ app.post("/createAccount", (req, res)=>{
             email: req.body.email,
             password: req.body.password,
             username: req.body.username,
-            userID: uuid.v4(),
+            userID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
             pfpURL: null,
             createdAt: Date.now(),
             onlinePresence: "offline",
@@ -98,7 +98,7 @@ app.post("/createServer", (req, res)=>{
     let serverObj = {
         name: req.body.name,
         serverIcon: null,
-        serverID: uuid.v4(),
+        serverID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
         membersList: [req.body.adminID],
         channels: [{
             name:"general",
@@ -140,6 +140,23 @@ app.get("/serverInfo", (req, res)=>{
 
    } else {
     res.json({type: "SUCCESS", msg: `Server found`, res: data[0]});
+
+   }
+});
+
+app.get("/userInfo", (req, res)=>{
+    let data = JSON.parse(fs.readFileSync("./data.json"));
+
+   data=data.userData.filter((el)=>{
+    return req.query.userID == el.userID;
+   })
+
+   if(data.length==0) {
+    
+    res.json({type: "ERROR", msg: "Invalid userID"});
+
+   } else {
+    res.json({type: "SUCCESS", msg: `user found`, res: data[0]});
 
    }
 })

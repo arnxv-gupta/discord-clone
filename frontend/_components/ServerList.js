@@ -1,24 +1,54 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import ServerDialogue from "./ServerDialogue";
-
-const servers = ["🏠", "🕹️", "🎮", "📚", "🛠️"];
+import Link from "next/link";
 
 const ServerList = () => {
   const [isDialog, setIsDialog] = useState(false);
+  const [servers, setServers]= useState([]);
+  console.log(servers);
+  
+
+  useEffect(()=>{
+  
+    
+   async function getServerInfo() {
+      await fetch(`http://localhost:3030/userInfo?userID=${localStorage.getItem("userID")}`).then(res=>res.text()).then(async data=>{
+        let serverObj=[];
+        let serverData = await JSON.parse(data).res.joinedServers;
+        setServers(serverData)
+      })
+    }
+
+    getServerInfo();
+      
+  }, [])
+
   return (
     <>
-    {(isDialog==true)?<ServerDialogue />:null}
+    {isDialog&&<ServerDialogue />}
 
       <div className="w-16 h-screen flex flex-col items-center py-4 space-y-3">
-        {servers.map((server, index) => (
-          <div
+        <ul>
+        {
+          (servers.length>0 && (
+          servers.map((server, index) => {
+            console.log(server);
+            return (
+          <li
             key={index}
             className="bg-gray-800 w-12 h-12 flex items-center justify-center rounded-full cursor-pointer transition duration-200 transform hover:bg-gray-600 hover:scale-110"
           >
-            <span className="text-white text-2xl">{server}</span>
-          </div>
-        ))}
+            <Link href={`/channels/${server}`}>
+            <span className="text-white text-xs">{server}</span>
+            </Link>
+        </li>
+            )
+              
+        })
+      ))
+        }
+        </ul>
 
         <div
           className="bg-gray-700 w-12 h-12 flex items-center justify-center rounded-full cursor-pointer transition duration-200 transform hover:bg-gray-600 hover:scale-110"
@@ -39,13 +69,13 @@ const ServerList = () => {
               });
           }}
         >
-          <div className="bg-gray-700 w-12 h-12 flex items-center justify-center cursor-pointer transition duration-200 transform hover:bg-gray-600  rounded-md hover:scale-110">
-            <span
-              className="text-white text-2xl"
-              onClick={() => {
-                setIsDialog(true);
-              }}
-            >
+          <div 
+          className="bg-gray-700 w-12 h-12 flex items-center justify-center cursor-pointer transition duration-200 transform hover:bg-gray-600  rounded-md hover:scale-110"
+          onClick={() => {
+            setIsDialog(true);
+          }}
+          >
+            <span className="text-white text-2xl">
               +
             </span>
           </div>
