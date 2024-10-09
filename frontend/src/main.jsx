@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <Auth />
   },
   {
-    path: "/channel/:id",
+    path: "/channels/:serverID/:channelID",
     element: <Channel />
   },
   {
