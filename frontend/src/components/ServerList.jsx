@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const servers = ['🏠', '🕹️', '🎮', '📚', '🛠️'];
 
 const ServerList = () => {
+  
   return (
     <div className="w-16 h-screen bg-[#282828] flex flex-col items-center py-4 space-y-3">
       {servers.map((server, index) => (

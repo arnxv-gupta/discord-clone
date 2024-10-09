@@ -123,6 +123,23 @@ app.post("/createServer", (req, res)=>{
 // app.post("/joinServer", (req, res)=>{
 // });
 
+app.get("/serverInfo", (req, res)=>{
+    let data = JSON.parse(fs.readFileSync("./data.json"));
+
+   data=data.serverData.filter((el)=>{
+    return req.query.serverID == el.serverID;
+   })
+
+   if(data.length==0) {
+    
+    res.json({type: "ERROR", msg: "Invalid serverID"});
+
+   } else {
+    res.json({type: "SUCCESS", msg: `Server found`, res: data[0]});
+
+   }
+})
+
 
 
 app.listen(PORT, ()=>{

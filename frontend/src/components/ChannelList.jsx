@@ -1,28 +1,38 @@
-import React from 'react';
-
-const textChannels = ['general', 'games', 'music', 'coding'];
-const voiceChannels = ['General', 'Gaming', 'Study'];
+import { useRef, useEffect, useState } from "react";
 
 const ChannelList = () => {
+  const [serverInfo, setServerInfo] = useState({channels:[]});
+
+
+  useEffect(()=>{
+  
+      fetch("http://localhost:3030/serverInfo?serverID=5ce593bf-2bc6-4caf-97b5-9cbd9af04a1c").then(res=>res.text()).then(data=>{
+        data=JSON.parse(data);
+        
+        
+        if(data.type=="SUCCESS") {
+          setServerInfo(data.res)
+        }
+        
+      })
+    
+    
+  }, [])
+
   return (
     <div className="w-64 h-screen bg-[#282828] text-gray-300 flex flex-col">
       <div className="p-4">
-        <h2 className="text-lg font-bold text-white mb-4">Server Name</h2>
+        <h2
+        className="text-lg font-bold text-white mb-4"
+        >{serverInfo.name}</h2>
         <div className="mb-6">
-          <h3 className="font-semibold text-gray-400 text-sm mb-2 uppercase">Text Channels</h3>
-          {textChannels.map((channel, index) => (
-            <div key={index} className="hover:bg-discord-hover text-white p-2 rounded-lg cursor-pointer transition duration-150">
-              # {channel}
-            </div>
-          ))}
-        </div>
-        <div>
-          <h3 className="font-semibold text-gray-400 text-sm mb-2 uppercase">Voice Channels</h3>
-          {voiceChannels.map((channel, index) => (
-            <div key={index} className="hover:bg-discord-hover text-white p-2 rounded-lg cursor-pointer transition duration-150">
-              🔊 {channel}
-            </div>
-          ))}
+        {serverInfo.channels.length > 0 && ( // Only render list if channels exist
+            <ul>
+              {serverInfo.channels.map((el, i) => (
+                <li key={i}>{el.name}</li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
