@@ -29,10 +29,12 @@ const ServerList = () => {
         })
       }}
       >
+      <div className="bg-gray-700 w-12 h-12 flex items-center justify-center rounded-full cursor-pointer transition duration-200 transform hover:bg-gray-600  rounded-md hover:scale-110">
         <span className="text-white text-2xl">+</span>
       </div>
-    </div>
+  </div>
+  </div>
   );
-};
+}
 
 export default ServerList;
