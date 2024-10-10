@@ -5,6 +5,8 @@ import ServerDialogue from "./ServerDialogue";
 import Link from "next/link";
 import Image from "next/image"; 
 
+import DiscordLogo from './assets/svgviewer-output.svg';
+
 const ServerList = () => {
   const [isDialog, setIsDialog] = useState(false);
   const [servers, setServers] = useState([]);
@@ -26,15 +28,14 @@ const ServerList = () => {
     <>
       {isDialog && <ServerDialogue />}
 
-      <div className="p-3 h-screen flex flex-col items-center py-4 space-y-3">
-
+      <div className="p-3 h-screen w-24 flex flex-col items-center py-4 space-y-3 bg-gray-900"> 
         <div className="w-12 h-12 mb-4">
           <Image
-            src="/discord-logo.svg"
+            src={DiscordLogo} 
             alt="Discord Logo"
             width={48}
             height={48}
-            className="object-contain" 
+            className="object-contain opacity-100 hover:bg-blue-500 hover:rounded-md hover:scale-110" 
           />
         </div>
 
