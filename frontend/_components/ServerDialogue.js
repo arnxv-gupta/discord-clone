@@ -4,6 +4,7 @@ const ServerDialogue = () => {
   const [currentStep, setCurrentStep] = useState(1); 
   const [isNotSure, setIsNotSure] = useState(false);
   const containerRef = useRef(null);
+  const serverNameRef = useRef(null)
 
   const handleOptionClick = () => {
     setCurrentStep(2); 
@@ -147,6 +148,7 @@ const ServerDialogue = () => {
               type="text"
               className="w-full p-2 bg-gray-600 text-white rounded-lg shadow-md mb-4"
               placeholder="Enter server name"
+              ref={serverNameRef}
             />
             <div className="flex justify-between mt-auto">
               <button
@@ -155,7 +157,25 @@ const ServerDialogue = () => {
               >
                 Back
               </button>
-              <button className="bg-[#5865F2] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#4853d4] transition duration-200">
+              <button 
+              className="bg-[#5865F2] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#4853d4] transition duration-200"
+              onClick={() => {
+                fetch("http://localhost:3030/createServer", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: serverNameRef.current.value,
+                    adminID: localStorage.getItem("userID"),
+                  }),
+                })
+                  .then((res) => res.text())
+                  .then((data) => {
+                    console.log(data);
+                  });
+              }}
+              >
                 Create
               </button>
             </div>

@@ -9,14 +9,11 @@ import { useEffect, useState } from "react";
 export default function Channels({params}) {
         
     const [data, setData]= useState(null);
-
-    console.log(params.slug[1]);
     
     useEffect(()=>{
         fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
             
-            if(data.type=="SUCCESS") {
-                console.log(data.res); 
+            if(data.type=="SUCCESS") { 
                 setData(data.res)
             }
         })

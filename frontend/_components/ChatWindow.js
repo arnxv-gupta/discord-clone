@@ -9,14 +9,22 @@ const ChatWindow = ({chatData, chatID}) => {
   const [data, setData] = useState(chatData.channels.filter((el)=>{
    return el.channelID == chatID;
   })[0].data)
+
+  if(data==null || data.length==0) {
+    return <small>This looks empty.. too empty :(</small>
+  }
+  
   
   return (
     <div className="flex-1 p-6 flex flex-col justify-between">
-      <div className="flex-grow overflow-auto space-y-4 p-4 rounded-lg">
-        <div className="text-sm font-medium">Welcome to the general chat!</div>
-        <div className="text-sm font-medium">Message #1</div>
-        <div className="text-sm font-medium">Message #2</div>
-      </div>
+
+      <ul>
+        {data.map((el)=>{
+          return <li key={el.timestamp}>{el.data}</li>
+        })}
+      </ul>
+
+
       <div className="mt-4 relative flex items-center">
         <div className="absolute left-2 bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
           <FaPlus className="text-gray-300" />
