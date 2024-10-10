@@ -23,7 +23,7 @@ export default function Channels({params}) {
         <div className="flex">
         <ServerList />
         <ChannelList data={data} />
-        <ChatWindow chatData={data} chatID={params.slug[1]}/>
+        <ChatWindow serverID={params.slug[0]} chatData={data} chatID={params.slug[1]}/>
         <MemberList />
         </div>
     )

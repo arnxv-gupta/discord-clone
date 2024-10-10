@@ -23,7 +23,7 @@ const ServerList = () => {
     <>
     {isDialog&&<ServerDialogue />}
 
-      <div className="w-16 h-screen flex flex-col items-center py-4 space-y-3">
+      <div className="p-3 h-screen flex flex-col items-center py-4 space-y-3">
         <ul>
         {
           (servers.length>0 && (
@@ -31,7 +31,7 @@ const ServerList = () => {
             return (
           <li
             key={index}
-            className="bg-gray-800 w-12 h-12 flex items-center justify-center rounded-full cursor-pointer transition duration-200 transform hover:bg-gray-600 hover:scale-110"
+            className="bg-gray-800 my-2 w-12 h-12 flex items-center justify-center rounded-full cursor-pointer transition duration-200 transform hover:bg-gray-600 hover:scale-110"
           >
             <Link href={`/channels/${server}`}>
             <span className="text-white text-xs">{server}</span>

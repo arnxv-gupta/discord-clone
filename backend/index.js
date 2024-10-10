@@ -128,6 +128,33 @@ app.post("/createServer", (req, res)=>{
 // app.post("/joinServer", (req, res)=>{
 // });
 
+app.post("/sendMessage", (req, res)=>{
+    let data =  JSON.parse(fs.readFileSync("./data.json"));
+    let chatObj = {
+        authorID: req.body.authorID,
+        timestamp: Date.now(),
+        data: req.body.text
+    }
+    
+    let pos=(data.serverData.map(el=>el.serverID)).indexOf(Number(req.body.serverID));
+    
+    if(pos!=-1) {
+        let channelPos= data.serverData[pos].channels.map(el=>el.channelID).indexOf(Number(req.body.channelID));
+        
+        if(channelPos!=-1) {
+            data.serverData[pos].channels[channelPos].data.push(chatObj);
+            fs.writeFileSync("./data.json", JSON.stringify(data));
+            res.json({type: "SUCCESS", msg: `Chat sent!`});
+        } else {
+            res.json({type: "ERROR", msg: "Invalid channelID"});
+        }
+       
+    } else {
+        res.json({type: "ERROR", msg: "Invalid serverID"});
+    }
+})
+
+// info
 app.get("/serverInfo", (req, res)=>{
     let data = JSON.parse(fs.readFileSync("./data.json"));
 
