@@ -103,6 +103,7 @@ app.post("/createServer", (req, res)=>{
         channels: [{
             name:"general",
             createdAt: Date.now(),
+            channelID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
             data:[]
         }],
         adminID: req.body.adminID

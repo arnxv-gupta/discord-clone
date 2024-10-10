@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaPlus, FaGift, FaRegSmile } from 'react-icons/fa';
 
-const ChatWindow = () => {
+const ChatWindow = ({chatData, chatID}) => {
+  if(chatData==null || chatData.length===0 || chatID==undefined) {
+    return <small>This looks empty.. too empty :(</small>
+  }
+  
+  const [data, setData] = useState(chatData.channels.filter((el)=>{
+   return el.channelID == chatID;
+  })[0].data)
+  
   return (
     <div className="flex-1 p-6 flex flex-col justify-between">
       <div className="flex-grow overflow-auto space-y-4 p-4 rounded-lg">
