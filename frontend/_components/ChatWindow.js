@@ -12,7 +12,13 @@ const ChatWindow = ({serverID, chatData, chatID}) => {
   })[0].data)
 
   if(data==null || data.length==0) {
-    return <small>This looks empty.. too empty :(</small>
+    
+    return (
+    <div className="flex-1 p-6 flex flex-col justify-between">
+        <small>This looks empty.. too empty :(</small>
+        <ChatInput userID={localStorage.getItem("userID")} serverID={serverID} chatID={chatID}/>
+    </div>
+    )
   }
   
   console.log(data);
@@ -25,7 +31,6 @@ const ChatWindow = ({serverID, chatData, chatID}) => {
           return <ChatStatement authorID={el.authorID} text={el.data} />
         })}
       </ul>
-        hhgh
         <ChatInput userID={localStorage.getItem("userID")} serverID={serverID} chatID={chatID}/>
     </div>
   );
