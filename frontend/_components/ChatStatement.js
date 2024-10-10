@@ -8,8 +8,6 @@ export default function ChatStatement({authorID, text}) {
 
     useEffect(()=>{
         fetch(`http://localhost:3030/userInfo?userID=${authorID}`).then(res=>res.json()).then(data=>{
-            console.log(data);
-            
             setData(data.res)
         })
     }, [])

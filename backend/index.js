@@ -125,8 +125,9 @@ app.post("/createServer", (req, res)=>{
     }
 });
 
-// app.post("/joinServer", (req, res)=>{
-// });
+app.get("/joinServer", (req, res)=>{
+    let data = JSON.parse(fs.readFileSync("./data.json"));
+});
 
 app.post("/sendMessage", (req, res)=>{
     let data =  JSON.parse(fs.readFileSync("./data.json"));

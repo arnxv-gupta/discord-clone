@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 export default function Auth() {
     const [isLogin, setIsLogin] = useState(true);
 
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isLogin) {
