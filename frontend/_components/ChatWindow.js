@@ -21,14 +21,12 @@ const ChatWindow = ({serverID, chatData, chatID}) => {
     )
   }
   
-  console.log(data);
-  
   return (
     <div className="flex-1 p-6 flex flex-col justify-between">
 
       <ul className="divide-y divide-gray-600">
         {data.map((el)=>{
-          return <ChatStatement authorID={el.authorID} text={el.data} />
+          return <ChatStatement authorID={el.authorID} text={el.data} key={el.timestamp}/>
         })}
       </ul>
         <ChatInput userID={localStorage.getItem("userID")} serverID={serverID} chatID={chatID}/>

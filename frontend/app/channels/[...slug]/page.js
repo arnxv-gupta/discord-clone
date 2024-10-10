@@ -14,6 +14,8 @@ export default function Channels({params}) {
         fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
             
             if(data.type=="SUCCESS") { 
+                console.log(data.res);
+                
                 setData(data.res)
             }
         })
@@ -24,7 +26,7 @@ export default function Channels({params}) {
         <ServerList />
         <ChannelList data={data} />
         <ChatWindow serverID={params.slug[0]} chatData={data} chatID={params.slug[1]}/>
-        <MemberList />
+        <MemberList data={data}/>
         </div>
     )
 }
