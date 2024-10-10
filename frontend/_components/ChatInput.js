@@ -12,7 +12,7 @@ export default function ChatInput({userID, serverID, chatID}) {
         <FaPlus className="text-gray-300" />
         </div>
         <input
-        className="flex-grow p-3 pl-10 pr-10 bg-[#1e1e1e] border border-transparent rounded-lg text-white placeholder-gray-400 focus:outline-none transition duration-200"
+        className="flex-grow block p-3 px-10 bg-[#1e1e1e] border border-transparent rounded-lg text-white placeholder-gray-400 focus:outline-none transition duration-200"
         placeholder="Type a message"
         ref={inputRef}
         />
