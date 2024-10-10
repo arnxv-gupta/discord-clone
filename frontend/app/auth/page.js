@@ -1,9 +1,8 @@
-"use client"
-import { redirect } from 'next/navigation';
-import { useEffect, useState } from 'react';
+'use client'; 
+import { useState } from 'react';
 
 export default function Auth() {
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(true); 
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,7 +12,7 @@ export default function Auth() {
                 password: e.target[2].value
             };
 
-            fetch("http://localhost:3030/loginAccount", {
+            fetch("/api/loginAccount", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -27,12 +26,14 @@ export default function Auth() {
             });
         } else {
             let signUpObj = {
-                username: e.target[0].value,
-                email: e.target[1].value,
-                password: e.target[2].value
+                email: e.target[0].value,
+                displayName: e.target[1].value,
+                username: e.target[2].value,
+                password: e.target[3].value,
+                dateOfBirth: `${e.target[4].value}-${e.target[5].value}-${e.target[6].value}`,
             };
 
-            fetch("http://localhost:3030/createAccount", {
+            fetch("/api/createAccount", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -45,15 +46,14 @@ export default function Auth() {
     };
 
     return (
-        <div
-            className='flex h-screen items-center justify-center bg-cover bg-center'
-        >
+        <div className='flex h-screen items-center justify-center bg-cover bg-center'>
             <form
                 className='relative w-full max-w-md p-10 space-y-6 bg-white bg-opacity-90 text-gray-900 rounded-md shadow-lg'
                 onSubmit={handleSubmit}
                 style={{
-                    maxHeight: isLogin ? '600px' : '700px',
-                    overflow: 'hidden',
+                    height: isLogin ? 'auto' : '80vh', 
+                    maxHeight: isLogin ? 'auto' : '90vh',
+                    overflow: isLogin ? 'visible' : 'auto', 
                 }}
             >
                 <h2 className='text-4xl font-bold text-center text-gray-800'>
@@ -62,40 +62,129 @@ export default function Auth() {
                 <p className='text-center text-gray-600 mb-4'>
                     {isLogin ? "We're so excited to see you again!" : "Pleasure to meet you!"}
                 </p>
-                <div className={isLogin ? "hidden" : "block"}>
-                    <label htmlFor="username" className='block text-sm font-medium'>
-                        USERNAME
-                    </label>
-                    <input
-                        type="text"
-                        id="username"
-                        required={!isLogin}
-                        className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email" className='block text-sm font-medium'>
-                        EMAIL
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        required
-                        className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                    />
-                </div>
 
-                <div>
-                    <label htmlFor="password" className='block text-sm font-medium'>
-                        PASSWORD
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        required
-                        className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                    />
-                </div>
+                {isLogin ? (
+                    <>
+                        <div>
+                            <label htmlFor="email" className='block text-sm font-medium'>
+                                EMAIL
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                required
+                                className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="password" className='block text-sm font-medium'>
+                                PASSWORD
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                required
+                                className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div>
+                            <label htmlFor="email" className='block text-sm font-medium'>
+                                EMAIL
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                required
+                                className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="displayName" className='block text-sm font-medium'>
+                                DISPLAY NAME
+                            </label>
+                            <input
+                                type="text"
+                                id="displayName"
+                                required
+                                className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="username" className='block text-sm font-medium'>
+                                USERNAME
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                required
+                                className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="password" className='block text-sm font-medium'>
+                                PASSWORD
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                required
+                                className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                            />
+                        </div>
+
+                        <div className='flex space-x-4'>
+                            <div className="w-1/3">
+                                <label htmlFor="day" className='block text-sm font-medium'>
+                                    DAY
+                                </label>
+                                <select
+                                    id="day"
+                                    required
+                                    className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                >
+                                    {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                                        <option key={day} value={day}>{day}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-1/3">
+                                <label htmlFor="month" className='block text-sm font-medium'>
+                                    MONTH
+                                </label>
+                                <select
+                                    id="month"
+                                    required
+                                    className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                >
+                                    {["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].map((month, index) => (
+                                        <option key={month} value={index + 1}>{month}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-1/3">
+                                <label htmlFor="year" className='block text-sm font-medium'>
+                                    YEAR
+                                </label>
+                                <select
+                                    id="year"
+                                    required
+                                    className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                >
+                                    {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </>
+                )}
 
                 <button
                     type='submit'
