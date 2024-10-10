@@ -1,26 +1,14 @@
 "use client"
+import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
 
-const ChannelList = ({data}) => {
-  const [serverInfo, setServerInfo] = useState({channels:[]});
+const ChannelList = ({parmas, data}) => {
+  if (data==null) {
+    return <div className="loading">Loading channels...</div>;
+  }
 
-console.log(data);
-
-  useEffect(()=>{
+  const [serverInfo, setServerInfo] = useState(data);
   
-      fetch(`http://localhost:3030/serverInfo?serverID=${data[0]}`).then(res=>res.text()).then(data=>{
-        data=JSON.parse(data);
-        
-        
-        if(data.type=="SUCCESS") {
-          setServerInfo(data.res)
-        }
-        
-      })
-    
-    
-  }, [])
-
   return (
     <div className="w-64 h-screen flex flex-col">
       <div className="p-4">
@@ -31,7 +19,9 @@ console.log(data);
         {serverInfo.channels.length > 0 && ( // Only render list if channels exist
             <ul>
               {serverInfo.channels.map((el, i) => (
-                <li key={i}>{el.name}</li>
+                <li key={i}>
+                  <Link href={`${serverInfo.serverID}/${el.channelID}/`}>{el.name}</Link>
+                  </li>
               ))}
             </ul>
           )}

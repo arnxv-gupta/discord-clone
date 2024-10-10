@@ -6,17 +6,12 @@ import Link from "next/link";
 const ServerList = () => {
   const [isDialog, setIsDialog] = useState(false);
   const [servers, setServers]= useState([]);
-  console.log(servers);
-  
 
   useEffect(()=>{
-  
-    
    async function getServerInfo() {
-      await fetch(`http://localhost:3030/userInfo?userID=${localStorage.getItem("userID")}`).then(res=>res.text()).then(async data=>{
-        let serverObj=[];
-        let serverData = await JSON.parse(data).res.joinedServers;
-        setServers(serverData)
+      await fetch(`http://localhost:3030/userInfo?userID=${localStorage.getItem("userID")}`).then(res=>res.json()).then(async data=>{
+        let serverData = await data.res;
+        setServers(serverData.joinedServers)
       })
     }
 
@@ -33,7 +28,6 @@ const ServerList = () => {
         {
           (servers.length>0 && (
           servers.map((server, index) => {
-            console.log(server);
             return (
           <li
             key={index}
