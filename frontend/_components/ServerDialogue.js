@@ -2,16 +2,29 @@ import React, { useState, useRef } from 'react';
 
 const ServerDialogue = () => {
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isNotSure, setIsNotSure] = useState(false);
   const containerRef = useRef(null);
 
   const handleOptionClick = () => {
     setIsUpdated((prevState) => !prevState); 
+    setIsNotSure(false); 
     if (containerRef.current) {
-      if (!isUpdated) {
-        containerRef.current.style.maxHeight = '1000px'; 
-      } else {
-        containerRef.current.style.maxHeight = '500px'; 
-      }
+      containerRef.current.style.maxHeight = !isUpdated ? '1000px' : '500px';
+    }
+  };
+
+  const handleNotSureClick = () => {
+    setIsNotSure(true);
+    if (containerRef.current) {
+      containerRef.current.style.maxHeight = '1000px';
+    }
+  };
+
+  const handleBackClick = () => {
+    if (isNotSure) {
+      setIsNotSure(false); 
+    } else {
+      handleOptionClick();
     }
   };
 
@@ -20,13 +33,13 @@ const ServerDialogue = () => {
       <div
         ref={containerRef}
         className={`w-full max-w-md p-6 bg-gray-700 rounded-lg shadow-lg relative flex flex-col transition-all duration-300 ${
-          isUpdated ? 'max-h-[1000px]' : 'max-h-[500px]'
+          isUpdated || isNotSure ? 'max-h-[1000px]' : 'max-h-[500px]'
         } overflow-hidden`}
         style={{
           transition: 'max-height 0.3s ease-in-out',
         }}
       >
-        {!isUpdated ? (
+        {!isUpdated && !isNotSure ? (
           <>
             <h2 className="text-3xl font-bold text-white text-center mb-4">Create Your Server</h2>
             <p className="text-md font-medium text-center mb-4 text-gray-300">
@@ -59,6 +72,44 @@ const ServerDialogue = () => {
               </button>
             </div>
           </>
+        ) : isNotSure ? (
+          <>
+            <h2 className="text-2xl font-bold text-white text-center mb-4">Customize Your Server</h2>
+            <p className="text-md font-medium text-center mb-4 text-gray-300">
+              Give your new server a personality with a name and an icon. You can always change it later.
+            </p>
+            <div className="flex justify-center items-center mb-4 relative">
+              <div className="w-16 h-16 border-4 border-dotted border-white rounded-full flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+            </div>
+            <label className="block text-white text-sm font-semibold mb-2">Server Name</label>
+            <input
+              type="text"
+              className="w-full p-2 bg-gray-600 text-white rounded-lg shadow-md mb-4"
+              placeholder="Enter server name"
+            />
+            <div className="flex justify-between mt-auto">
+              <button
+                className="bg-gray-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-gray-500 transition duration-200"
+                onClick={handleBackClick}
+              >
+                Back
+              </button>
+              <button className="bg-[#5865F2] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#4853d4] transition duration-200">
+                Create
+              </button>
+            </div>
+          </>
         ) : (
           <>
             <h2 className="text-2xl font-bold text-white text-center mb-4">Tell Us More About Your Server</h2>
@@ -72,11 +123,17 @@ const ServerDialogue = () => {
               <div className="w-full p-4 bg-gray-600 text-white rounded-lg flex justify-between items-center shadow-md hover:bg-gray-500">
                 <p className="font-semibold">For club and community</p>
               </div>
+              <div
+                className="w-full p-4 bg-gray-200 text-gray-800 rounded-lg flex justify-center items-center shadow-md hover:bg-gray-300 cursor-pointer"
+                onClick={handleNotSureClick}
+              >
+                <p className="font-semibold">Not Sure? You can Skip</p>
+              </div>
             </div>
             <div className="mt-auto">
               <button
                 className="w-full bg-gray-600 text-white py-3 rounded-lg shadow-lg hover:bg-gray-500 transition duration-200"
-                onClick={handleOptionClick}
+                onClick={handleBackClick}
               >
                 Back
               </button>
