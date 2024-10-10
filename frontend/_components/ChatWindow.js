@@ -26,7 +26,7 @@ const ChatWindow = ({serverID, chatData, chatID}) => {
 
       <ul className="divide-y divide-gray-600">
         {data.map((el)=>{
-          return <ChatStatement authorID={el.authorID} text={el.data} key={el.timestamp}/>
+          return <ChatStatement authorID={el.authorID} text={el.data} timestamp={el.timestamp} key={el.timestamp}/>
         })}
       </ul>
         <ChatInput userID={localStorage.getItem("userID")} serverID={serverID} chatID={chatID}/>
