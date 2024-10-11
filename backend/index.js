@@ -4,10 +4,8 @@ const fs = require("fs");
 const { customAlphabet } = require('nanoid')
 const session = require("express-session");
 const cors = require("cors");
-const http = require("http");
-const server = http.createServer(app);
-const {Server} = require("socket.io")
-const io = new Server(server);
+const {MongoClient, Collection} = require("mongodb");
+const getDb = require("./controllers/getDb.js")
 
 app.use(cors())
 app.use(express.json());
@@ -19,16 +17,24 @@ app.use(session({
 }));
 
 const PORT = 3030;
+const mongoURL = "";
 
-app.get("/", (req, res)=>{
+app.get("/", async (req, res)=>{
     res.send("Discord clone!")
 })
 
 // auth
-app.post("/createAccount", (req, res)=>{
+app.post("/createAccount", async (req, res)=>{
     console.log(req.body);
-
-    let data = JSON.parse(fs.readFileSync("./data.json"));
+    let db = await getDb("mongodb+srv://avirana3449:mRvGme1MyLwisntH@cluster0.lgdme.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" ,"userData");
+    await db.collection("userData").insertOne({name:"aVI"}, (err, res)=>{
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("Inserted!");
+            
+        }
+    });
     data=data.userData.filter((el)=>{
         return el.email==req.body.email
     });

@@ -5,10 +5,10 @@ import { useEffect, useState } from "react"
 export default function ChatStatement({authorID, text, timestamp}) {
 
     const [data, setData] = useState(null);
-    const [time, setTime] = useState(0);
+    const [time, setTime] = useState("");
 
-    useEffect(()=>{
-        setTime(convertTime((Date.now()-Number(timestamp))/1000));
+    useEffect(()=>{        
+        convertTime((Date.now()-Number(timestamp))/1000);
     })
 
 
@@ -31,7 +31,7 @@ export default function ChatStatement({authorID, text, timestamp}) {
     
 
         convertedString+=" ago";
-        return convertedString;
+        setTime(convertedString);
     }
 
     useEffect(()=>{
