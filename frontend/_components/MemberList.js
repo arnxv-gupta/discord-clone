@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import UserProfile from './UserProfile';
 
 const MemberList = ({data}) => {
   if(data==null || data==undefined) {
@@ -15,6 +16,7 @@ console.log(members);
       {members.map((member, index) => (
         <li key={index} className="hover:bg-gray-200 hover:text-black text-white p-2 rounded-lg cursor-pointer transition duration-150">
           {member}
+          {UserProfile}
         </li>
       ))}
       </ul>

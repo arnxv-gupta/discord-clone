@@ -5,7 +5,7 @@ import ServerDialogue from "./ServerDialogue";
 import Link from "next/link";
 import Image from "next/image"; 
 
-import DiscordLogo from './assets/svgviewer-output.svg';
+import DiscordLogo from '../assets/svgviewer-output.svg';
 
 const ServerList = () => {
   const [isDialog, setIsDialog] = useState(false);

@@ -1,11 +1,9 @@
-"use client"
-import { redirect } from 'next/navigation';
-import { useEffect, useState } from 'react';
+"use client";
+import { useState } from 'react';
 
 export default function Auth() {
     const [isLogin, setIsLogin] = useState(true);
 
-    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isLogin) {
@@ -48,6 +46,13 @@ export default function Auth() {
     return (
         <div
             className='flex h-screen items-center justify-center bg-cover bg-center'
+            style={{
+                backgroundImage: "url('/assets/bg.jpg')", 
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'fixed'
+            }}
         >
             <form
                 className='relative w-full max-w-md p-10 space-y-6 bg-white bg-opacity-90 text-gray-900 rounded-md shadow-lg'
