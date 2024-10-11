@@ -13,7 +13,7 @@ console.log(members);
       <h3 className="font-semibold mb-4 text-gray-400 text-sm uppercase">Members</h3>
       <ul>
       {members.map((member, index) => (
-        <li key={index} className="hover:bg-discord-hover text-white p-2 rounded-lg cursor-pointer transition duration-150">
+        <li key={index} className="hover:bg-gray-200 hover:text-black text-white p-2 rounded-lg cursor-pointer transition duration-150">
           {member}
         </li>
       ))}
