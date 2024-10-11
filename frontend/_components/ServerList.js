@@ -35,7 +35,7 @@ const ServerList = () => {
             alt="Discord Logo"
             width={48}
             height={48}
-            className="object-contain opacity-100 hover:bg-blue-500 hover:rounded-md hover:scale-110" 
+            className="object-contain opacity-100 hover:scale-110" 
           />
         </div>
 
