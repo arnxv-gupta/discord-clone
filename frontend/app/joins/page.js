@@ -3,13 +3,13 @@ import Image from 'next/image';
 
 export default function Join() {
     const username = 'Heelo mfs';  
-    const profileImageUrl = '/assets/profile.jpg';  
+    const profileImageUrl = '/profile.jpg';  
 
     return (
         <div
             className="flex h-screen items-center justify-center bg-cover bg-center"
             style={{
-                backgroundImage: "url('/assets/bg.jpg')",
+                backgroundImage: "url('/bg.jpg')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
