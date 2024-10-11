@@ -5,7 +5,8 @@ const { customAlphabet } = require('nanoid')
 const session = require("express-session");
 const cors = require("cors");
 const {MongoClient, Collection} = require("mongodb");
-const getDb = require("./controllers/getDb.js")
+const getDb = require("./controllers/getDb.js");
+const { get } = require("http");
 
 app.use(cors())
 app.use(express.json());
@@ -25,21 +26,10 @@ app.get("/", async (req, res)=>{
 
 // auth
 app.post("/createAccount", async (req, res)=>{
-    console.log(req.body);
-    let db = await getDb("mongodb+srv://avirana3449:mRvGme1MyLwisntH@cluster0.lgdme.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" ,"userData");
-    await db.collection("userData").insertOne({name:"aVI"}, (err, res)=>{
-        if(err) {
-            console.log(err);
-        } else {
-            console.log("Inserted!");
-            
-        }
-    });
-    data=data.userData.filter((el)=>{
-        return el.email==req.body.email
-    });
 
-    if(data.length!=0) {
+    let db = await getDb();
+
+    if(await db.collection("userData").findOne({email: req.body.email})!=null) {
         // user already exists
         res.json({type:"ERROR",msg: "User already exists!"});
     } else {
@@ -55,31 +45,33 @@ app.post("/createAccount", async (req, res)=>{
             joinedServers:[],
             friends: []
         }
-        data = JSON.parse(fs.readFileSync("./data.json"));
-        data.userData.push(userObj);
-        fs.writeFileSync("./data.json", JSON.stringify(data));
+
+        await db.collection("userData").insertOne(userObj, (err, res)=>{
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("Created new user!");
+                
+            }
+        });
+
         res.json({type: "SUCCESS", msg: "Created new user."});
     }
 });
 
-app.post("/loginAccount", (req, res)=>{
+app.post("/loginAccount", async (req, res)=>{
     
-    let data = JSON.parse(fs.readFileSync("./data.json"));
-    data=data.userData.filter((el)=>{
-        return el.email == req.body.email && el.password==req.body.password;
-    })
+    let db = await getDb();
 
-    if(data.length==0) {
+    let data = await db.collection("userData").findOne({email:req.body.email, password:req.body.password});
+
+    if(data==null) {
         //error
         res.json({type:"ERROR", msg: `Unable to login! Email or password was invalid.`})
     } else {
-
-        req.session.auth=data[0].userID;
-       // req.session.save();
-        console.log(req.session.auth);
         
 
-        res.json({type: "SUCCESS", msg: `Logged in as ${data[0].username} (${data[0].userID}).`, res: data[0].userID});
+        res.json({type: "SUCCESS", msg: `Logged in as ${data.username} (${data.userID}).`, res: data.userID});
     }
 
 });
@@ -96,11 +88,11 @@ app.get("/getAuth", (req, res)=>{
 
 // server
 
-app.post("/createServer", (req, res)=>{
+app.post("/createServer", async (req, res)=>{
     console.log(req.body);
     
-    let data = JSON.parse(fs.readFileSync("./data.json"));
-    
+    let db = await getDb()
+
     let serverObj = {
         name: req.body.name,
         serverIcon: null,
@@ -115,17 +107,15 @@ app.post("/createServer", (req, res)=>{
         adminID: req.body.adminID
     }
 
-    let pos=data.userData.findIndex((el)=>el.userID==req.body.adminID);
-    console.log(serverObj);
-
-    if(pos==-1) {
+    let userObj = await db.collection("userData").findOne({userID: Number(req.body.adminID)})
+    console.log(userObj);
+    
+    if(userObj==null) {
         // error userID not found
         res.json({type: "ERROR", msg: "Unable to create server! Invalid adminID."})
     } else {
-        data.userData[pos].joinedServers.push(serverObj.serverID);
-        data.serverData.push(serverObj);
-
-        fs.writeFileSync("./data.json", JSON.stringify(data));
+        await db.collection("userData").updateOne({_id:userObj._id}, {$push: {joinedServers: serverObj.serverID}});
+        await db.collection("serverData").insertOne(serverObj);
 
         res.json({type: "SUCCESS", msg: `Server created! ID: ${serverObj.serverID}`});
     }
@@ -135,22 +125,22 @@ app.get("/joinServer", (req, res)=>{
     let data = JSON.parse(fs.readFileSync("./data.json"));
 });
 
-app.post("/sendMessage", (req, res)=>{
-    let data =  JSON.parse(fs.readFileSync("./data.json"));
+app.post("/sendMessage", async (req, res)=>{
+    let db = await getDb();
     let chatObj = {
         authorID: req.body.authorID,
         timestamp: Date.now(),
         data: req.body.text
     }
+    let data = await db.collection("serverData").findOne({serverID: Number(req.body.serverID), "channels.channelID": Number(req.body.channelID)});
+    console.log(data);
     
-    let pos=(data.serverData.map(el=>el.serverID)).indexOf(Number(req.body.serverID));
-    
-    if(pos!=-1) {
-        let channelPos= data.serverData[pos].channels.map(el=>el.channelID).indexOf(Number(req.body.channelID));
+    if(data!=null) {
+        let channel= await db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID)+1 });
+        console.log(channel);
         
-        if(channelPos!=-1) {
-            data.serverData[pos].channels[channelPos].data.push(chatObj);
-            fs.writeFileSync("./data.json", JSON.stringify(data));
+        if(channel!=null) {
+            db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID) }, {$push: chatObj});
             res.json({type: "SUCCESS", msg: `Chat sent!`});
         } else {
             res.json({type: "ERROR", msg: "Invalid channelID"});
@@ -162,36 +152,34 @@ app.post("/sendMessage", (req, res)=>{
 })
 
 // info
-app.get("/serverInfo", (req, res)=>{
-    let data = JSON.parse(fs.readFileSync("./data.json"));
+app.get("/serverInfo", async (req, res)=>{
 
-   data=data.serverData.filter((el)=>{
-    return req.query.serverID == el.serverID;
-   })
+    let db = await getDb();
 
-   if(data.length==0) {
+    let data = await db.collection("serverData").findOne({serverID: Number(req.query.serverID)});
+    
+   if(data==null) {
     
     res.json({type: "ERROR", msg: "Invalid serverID"});
 
    } else {
-    res.json({type: "SUCCESS", msg: `Server found`, res: data[0]});
+    res.json({type: "SUCCESS", msg: `Server found`, res: data});
 
    }
 });
 
-app.get("/userInfo", (req, res)=>{
-    let data = JSON.parse(fs.readFileSync("./data.json"));
+app.get("/userInfo", async (req, res)=>{
 
-   data=data.userData.filter((el)=>{
-    return req.query.userID == el.userID;
-   })
+    let db = await getDb();
 
-   if(data.length==0) {
+    let data = await db.collection("userData").findOne({userID: Number(req.query.userID)});
+
+   if(data==null) {
     
     res.json({type: "ERROR", msg: "Invalid userID"});
 
    } else {
-    res.json({type: "SUCCESS", msg: `user found`, res: data[0]});
+    res.json({type: "SUCCESS", msg: `user found`, res: data});
 
    }
 })

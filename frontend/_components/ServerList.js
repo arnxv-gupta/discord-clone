@@ -5,7 +5,6 @@ import ServerDialogue from "./ServerDialogue";
 import Link from "next/link";
 import Image from "next/image"; 
 
-import DiscordLogo from '../assets/svgviewer-output.svg';
 
 const ServerList = () => {
   const [isDialog, setIsDialog] = useState(false);
@@ -16,8 +15,10 @@ const ServerList = () => {
       await fetch(`http://localhost:3030/userInfo?userID=${localStorage.getItem("userID")}`)
         .then((res) => res.json())
         .then(async (data) => {
-          let serverData = await data.res;
-          setServers(serverData.joinedServers);
+
+          console.log(data);
+          
+          setServers(await data.res.joinedServers);
         });
     }
 
@@ -31,7 +32,7 @@ const ServerList = () => {
       <div className="p-3 h-screen w-24 flex flex-col items-center py-4 space-y-3 bg-gray-900"> 
         <div className="w-12 h-12 mb-4">
           <Image
-            src={DiscordLogo} 
+            src="/image.png"
             alt="Discord Logo"
             width={48}
             height={48}
