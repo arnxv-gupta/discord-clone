@@ -1,9 +1,9 @@
 'use client';
 import Image from 'next/image';
 
-export default function Join() {
-    const username = 'Heelo mfs';  
-    const profileImageUrl = '/profile.jpg';  
+export default function Join({params}) {
+    const username = localStorage.getItem("userID");  
+    const profileImageUrl = '/profile.jpg';     
 
     return (
         <div
@@ -37,6 +37,12 @@ export default function Join() {
                 </h2>
                 <button
                     className="bg-blue-600 w-full py-3 px-4 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md transition-all duration-200"
+                    onClick={()=>{
+                        fetch(`http://localhost:3030/joinServer?serverID=${params.serverID}&userID=${localStorage.getItem("userID")}`).then(res=>res.json()).then(data=>{
+                            console.log(data);
+                            
+                        })
+                    }}
                 >
                     Join Server
                 </button>

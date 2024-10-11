@@ -121,8 +121,28 @@ app.post("/createServer", async (req, res)=>{
     }
 });
 
-app.get("/joinServer", (req, res)=>{
-    let data = JSON.parse(fs.readFileSync("./data.json"));
+app.get("/joinServer", async (req, res)=>{
+    //almost works
+    let db = await getDb();
+
+    let serverObj = await db.collection("serverData").findOne({serverID: Number(req.query.serverID)});
+    console.log(serverObj);
+    
+    if(serverObj==null) {
+        res.json({type: "ERROR", msg: "Invalid serverID."});
+    } else {
+        if(serverObj.membersList.indexOf(req.body.userID)==-1) {
+            await db.collection("serverData").updateOne({serverID: serverObj.serverID}, {$push: {membersList: req.query.userID}});
+            await db.collection("userData").updateOne({userID: Number(req.body.userID)}, {$push: {joinedServers: Number(req.query.serverID)}});
+
+            res.json({type: "SUCCESS", msg: `Server joined!`});
+
+        } else {
+            res.json({type: "ERROR", msg: "Already in server."});
+ 
+        }
+    }
+
 });
 
 app.post("/sendMessage", async (req, res)=>{
@@ -136,11 +156,11 @@ app.post("/sendMessage", async (req, res)=>{
     console.log(data);
     
     if(data!=null) {
-        let channel= await db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID)+1 });
+        let channel= await db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID)});
         console.log(channel);
         
         if(channel!=null) {
-            db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID) }, {$push: chatObj});
+            //db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID) }, {$push: });
             res.json({type: "SUCCESS", msg: `Chat sent!`});
         } else {
             res.json({type: "ERROR", msg: "Invalid channelID"});
