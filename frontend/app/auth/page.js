@@ -26,15 +26,16 @@ export default function Auth() {
             });
         } else {
             let signUpObj = {
-                username: e.target[0].value,
-                email: e.target[1].value,
-                password: e.target[2].value
+                pfpImage: e.target[0].value,
+                username: e.target[1].value,
+                email: e.target[2].value,
+                password: e.target[3].value
             };
 
             fetch("http://localhost:3030/createAccount", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "multipart/form-data"
                 },
                 body: JSON.stringify(signUpObj)
             }).then(res => res.json()).then(data => {
@@ -68,7 +69,11 @@ export default function Auth() {
                 <p className='text-center text-gray-600 mb-4'>
                     {isLogin ? "We're so excited to see you again!" : "Pleasure to meet you!"}
                 </p>
+
                 <div className={isLogin ? "hidden" : "block"}>
+
+                    <input type="file" name="pfpImage" />
+
                     <label htmlFor="username" className='block text-sm font-medium'>
                         USERNAME
                     </label>

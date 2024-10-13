@@ -1,12 +1,27 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
-const { customAlphabet } = require('nanoid')
 const session = require("express-session");
 const cors = require("cors");
-const {MongoClient, Collection} = require("mongodb");
 const getDb = require("./controllers/getDb.js");
-const { get } = require("http");
+const multer = require("multer")
+const storage = multer.diskStorage({
+    destination: (req, file, cb) =>{
+
+        cb((err)=>{
+        }, "./uploads")
+    },
+    filename: (req, file, cb) =>{
+        console.log(file);
+        
+        cb((err)=>{
+            console.log(err);
+            
+        }, file.fieldname);
+    }
+});
+const upload = multer({storage:storage});
+
 
 app.use(cors())
 app.use(express.json());
@@ -25,8 +40,9 @@ app.get("/", async (req, res)=>{
 })
 
 // auth
-app.post("/createAccount", async (req, res)=>{
-
+app.post("/createAccount", upload.single("pfpImage"), async (req, res)=>{
+    console.log(req.body);
+    
     let db = await getDb();
 
     if(await db.collection("userData").findOne({email: req.body.email})!=null) {
@@ -39,7 +55,7 @@ app.post("/createAccount", async (req, res)=>{
             password: req.body.password,
             username: req.body.username,
             userID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
-            pfpURL: null,
+            pfpURL: req.file,
             createdAt: Date.now(),
             onlinePresence: "offline",
             joinedServers:[],
