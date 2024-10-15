@@ -9,6 +9,19 @@ import { useEffect, useState } from "react";
 export default function Channels({params}) {
         
     const [data, setData]= useState(null);
+    console.log(params.slug);
+    
+
+    if(params.slug[0]=="%40me") {
+        return (
+            <div className="flex">
+            <ServerList />
+                <div className="flex items-center justify-center w-full text-gray-400">
+                    Open a server to continue!
+                </div>
+            </div>
+        )
+    }
     
     useEffect(()=>{
         fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{

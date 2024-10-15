@@ -4,28 +4,24 @@ const fs = require("fs");
 const session = require("express-session");
 const cors = require("cors");
 const getDb = require("./controllers/getDb.js");
+const path = require("path")
 const multer = require("multer")
 const storage = multer.diskStorage({
-    destination: (req, file, cb) =>{
-
-        cb((err)=>{
-        }, "./uploads")
+    destination: (req, file, cb)=>{
+        cb(null, "./uploads");
     },
-    filename: (req, file, cb) =>{
-        console.log(file);
-        
-        cb((err)=>{
-            console.log(err);
-            
-        }, file.fieldname);
+    filename: (req, file, cb)=>{
+
+        cb(null, Date.now() + "-pfp-" + file.originalname);
     }
-});
-const upload = multer({storage:storage});
+})
+const upload = multer({storage});
 
 
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use("/uploads", express.static("uploads"));
 app.use(session({
     secret:"disrd",
     saveUninitialized:false,
@@ -40,10 +36,11 @@ app.get("/", async (req, res)=>{
 })
 
 // auth
-app.post("/createAccount", upload.single("pfpImage"), async (req, res)=>{
+app.post("/createAccount", async (req, res)=>{
+
+    let db = await getDb();    
     console.log(req.body);
     
-    let db = await getDb();
 
     if(await db.collection("userData").findOne({email: req.body.email})!=null) {
         // user already exists
@@ -55,7 +52,7 @@ app.post("/createAccount", upload.single("pfpImage"), async (req, res)=>{
             password: req.body.password,
             username: req.body.username,
             userID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
-            pfpURL: req.file,
+            pfpURL: req.body.pfpImage,
             createdAt: Date.now(),
             onlinePresence: "offline",
             joinedServers:[],
@@ -220,6 +217,19 @@ app.get("/userInfo", async (req, res)=>{
    }
 })
 
+
+// misc
+
+app.post("/uploadImage", upload.single("image"), (req, res)=>{
+    console.log(req.file);
+    
+    if(req.file==undefined) {
+        res.json({type:"ERROR",msg: "Error uploading image!"});
+    } else {
+        res.json({type:"SUCCESS",msg: "Image uploaded!", res: "http://localhost:3030/uploads/"+req.file.filename});
+
+    }
+})
 
 
 app.listen(PORT, ()=>{
