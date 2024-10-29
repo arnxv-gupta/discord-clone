@@ -1,16 +1,21 @@
 "use client";
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Auth() {
+    const router = useRouter()
     const [isLogin, setIsLogin] = useState(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (isLogin) {
             let loginObj = {
-                email: e.target[1].value,
-                password: e.target[2].value
+                email: e.target[2].value,
+                password: e.target[3].value
             };
+            console.log(loginObj);
+            
 
             fetch("http://localhost:3030/loginAccount", {
                 method: "POST",
@@ -22,19 +27,27 @@ export default function Auth() {
                 alert(data.type + data.msg);
                 if (data.type === "SUCCESS") {
                     localStorage.setItem("userID", data.res);
+                    router.push("/channels/@me");
                 }
+
+                
             });
         } else {
+
             let signUpObj = {
-                username: e.target[0].value,
-                email: e.target[1].value,
-                password: e.target[2].value
+                pfpImage: localStorage.getItem("pfpImage"),
+                username: e.target[1].value,
+                email: e.target[2].value,
+                password: e.target[3].value
             };
+
+            console.log(signUpObj);
+            
 
             fetch("http://localhost:3030/createAccount", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type":"application/json"
                 },
                 body: JSON.stringify(signUpObj)
             }).then(res => res.json()).then(data => {
@@ -68,13 +81,35 @@ export default function Auth() {
                 <p className='text-center text-gray-600 mb-4'>
                     {isLogin ? "We're so excited to see you again!" : "Pleasure to meet you!"}
                 </p>
+
                 <div className={isLogin ? "hidden" : "block"}>
+
+                    <input
+                    type="file"
+                    name="pfpImage"
+                    onChange={(e)=>{
+                        let data = new FormData();
+                        data.append("image", e.target.files[0])
+                        fetch("http://localhost:3030/uploadImage", {
+                            method:"POST",
+                            body: data
+                        }).then(res=>res.json()).then(data=>{
+                            console.log(data);
+                            if(data.type=="SUCCESS") {
+                                localStorage.setItem("pfpImage", data.res)
+                            }
+                            
+                        })
+                    }}
+                    required={!isLogin}/>
+
                     <label htmlFor="username" className='block text-sm font-medium'>
                         USERNAME
                     </label>
                     <input
                         type="text"
                         id="username"
+                        name="username"
                         required={!isLogin}
                         className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
@@ -86,6 +121,7 @@ export default function Auth() {
                     <input
                         type="email"
                         id="email"
+                        name="email"
                         required
                         className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
@@ -98,6 +134,7 @@ export default function Auth() {
                     <input
                         type="password"
                         id="password"
+                        name="password"
                         required
                         className='mt-2 w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
