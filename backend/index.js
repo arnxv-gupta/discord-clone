@@ -169,7 +169,7 @@ app.post("/sendMessage", async (req, res)=>{
     console.log(data);
     
     if(data!=null) {
-        let channel= await db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID)});
+       // let channel= await db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID)});
         console.log(channel);
         
         if(channel!=null) {
