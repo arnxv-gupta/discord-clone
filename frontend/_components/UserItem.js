@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 
-const UserProfile = ({userID}) => {
+const UserItem = ({userID}) => {
 
   const [userData, setUserData] = useState(null);
 
@@ -23,10 +23,11 @@ const UserProfile = ({userID}) => {
   }, [])
 
   return (
-    <div className="bg-[#282828] p-4 text-white">
+    <div className="p-3 text-white text-sm hover:bg-[#35373C] rounded">
+
       <div className="flex items-center">
         <img 
-        className="w-10 h-10 bg-gray-600 rounded-full"
+        className="w-9 h-9 bg-gray-600 rounded-full"
         src={(userData!=null?(userData.pfpURL):("Loading"))}
         />
         <div className="ml-2">
@@ -38,4 +39,4 @@ const UserProfile = ({userID}) => {
   );
 };
 
-export default UserProfile;
+export default UserItem;

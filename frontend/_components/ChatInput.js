@@ -7,13 +7,15 @@ export default function ChatInput({userID, serverID, chatID}) {
     const inputRef = useRef(null);
 
     return (
-        <div className="mt-4 relative flex items-center">
-        <div className="absolute left-2 bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
+        <div className="mt-4 p-3 bg-[#383A40] flex items-center rounded-lg">
+        <div className=" bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
         <FaPlus className="text-gray-300" />
         </div>
         <input
-        className="flex-grow block p-3 px-10 bg-[#1e1e1e] border border-transparent rounded-lg text-white placeholder-gray-400 focus:outline-none transition duration-200"
+        className="flex-grow block ml-3 border-none bg-transparent text-white placeholder-gray-400 focus:outline-none transition duration-200"
         placeholder="Type a message"
+        spellCheck={false}
+        autoFocus={true}
         ref={inputRef}
         />
         <button

@@ -4,17 +4,20 @@ import { useRef, useEffect, useState } from "react";
 
 const ChannelList = ({parmas, data}) => {
   if (data==null) {
-    return <div className="loading">Loading channels...</div>;
+    return <div className="w-64 p-4 bg-[#313338]">Loading channels...</div>;
   }
 
   const [serverInfo, setServerInfo] = useState(data);
   
   return (
-    <div className="w-64 h-screen flex flex-col">
+    <div className="w-64 h-screen flex flex-col bg-[#2B2D31]">
       <div className="p-4">
         <h2
         className="text-lg font-bold text-white mb-4"
-        >{serverInfo.name}</h2>
+        >
+          {serverInfo.name}
+        </h2>
+
         <div className="mb-6">
         {serverInfo.channels.length > 0 && ( // Only render list if channels exist
             <ul>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ServerDialogue from "./ServerDialogue";
 import Link from "next/link";
 import Image from "next/image"; 
+import ServerItem from "./ServerItem";
 
 
 const ServerList = () => {
@@ -29,30 +30,14 @@ const ServerList = () => {
     <>
       {isDialog && <ServerDialogue />}
 
-      <div className="p-3 h-screen w-24 flex flex-col items-center py-4 space-y-3 bg-gray-900"> 
-        <div className="w-12 h-12 mb-4">
-          <Image
-            src="/image.png"
-            alt="Discord Logo"
-            width={48}
-            height={48}
-            className="object-contain opacity-100 hover:scale-110" 
-          />
-        </div>
+      <ul className="p-3 h-screen flex flex-col items-center space-y-1 bg-[#1E1F22]"> 
+        <ServerItem icon="/image.png" alt="Discord logo" link="/channels/@me" />
+        <hr className="w-10/12  border-gray-600" />
 
-        <hr className="w-10/12 border-t border-gray-600 my-2" />
-
-        <ul className="w-full space-y-2">
+        <ul className="w-full flex flex-col items-center space-y-2">
           {servers.length > 0 &&
             servers.map((server, index) => (
-              <li
-                key={index}
-                className="bg-gray-800 my-2 w-12 h-12 flex items-center justify-center rounded-full cursor-pointer transition duration-200 transform hover:bg-gray-600 hover:scale-110"
-              >
-                <Link href={`/channels/${server}`}>
-                  <span className="text-white text-xs">{server}</span>
-                </Link>
-              </li>
+              <ServerItem icon={null} alt={server} link={`/channels/${server}`} key={server} />
             ))}
         </ul>
 
@@ -64,7 +49,7 @@ const ServerList = () => {
         >
           <span className="text-white text-2xl">+</span>
         </div>
-      </div>
+      </ul>
     </>
   );
 };
