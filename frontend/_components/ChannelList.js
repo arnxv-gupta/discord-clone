@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
+import ChannelItem from "./ChannelItem";
 
 const ChannelList = ({parmas, data}) => {
   if (data==null) {
@@ -23,7 +24,7 @@ const ChannelList = ({parmas, data}) => {
             <ul>
               {serverInfo.channels.map((el, i) => (
                 <li key={i}>
-                  <Link href={`${serverInfo.serverID}/${el.channelID}/`}>{el.name}</Link>
+                  <ChannelItem link={`${serverInfo.serverID}/${el.channelID}/`} icon="#" name={el.name} />
                   </li>
               ))}
             </ul>

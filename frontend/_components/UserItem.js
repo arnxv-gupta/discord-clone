@@ -32,7 +32,6 @@ const UserItem = ({userID}) => {
         />
         <div className="ml-2">
           <p className="font-bold">{(userData!=null?(userData.username):("Loading"))}</p>
-          <p className="text-sm text-gray-400">#1234</p>
         </div>
       </div>
     </div>

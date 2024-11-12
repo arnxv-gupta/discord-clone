@@ -169,11 +169,11 @@ app.post("/sendMessage", async (req, res)=>{
     console.log(data);
     
     if(data!=null) {
-       // let channel= await db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID)});
-        console.log(channel);
+        let channel= await db.collection("serverData").findOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID)});
+    //     console.log(channel);
         
         if(channel!=null) {
-            //db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID) }, {$push: });
+            db.collection("serverData").updateOne({serverID: data.serverID, "channels.channelID": Number(req.body.channelID) }, {$push: {"channels.$.data": chatObj}});
             res.json({type: "SUCCESS", msg: `Chat sent!`});
         } else {
             res.json({type: "ERROR", msg: "Invalid channelID"});

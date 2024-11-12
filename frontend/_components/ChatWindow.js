@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ChatStatement from './ChatStatement';
+import ChatItem from './ChatItem';
 import ChatInput from './ChatInput';
 
 const ChatWindow = ({serverID, chatData, chatID}) => {
@@ -26,11 +26,11 @@ const ChatWindow = ({serverID, chatData, chatID}) => {
   }
   
   return (
-    <div className="flex-1 p-6 flex flex-col justify-between bg-[#313338]">
+    <div className="flex-1 py-6 flex flex-col justify-between bg-[#313338] overflow-hidden">
 
-      <ul className="divide-y divide-gray-600">
+      <ul className="divide-y divide-gray-600 overflow-y-scroll">
         {data.map((el)=>{
-          return <ChatStatement authorID={el.authorID} text={el.data} timestamp={el.timestamp} key={el.timestamp}/>
+          return <ChatItem authorID={el.authorID} text={el.data} timestamp={el.timestamp} key={el.timestamp}/>
         })}
       </ul>
         <ChatInput userID={localStorage.getItem("userID")} serverID={serverID} chatID={chatID}/>

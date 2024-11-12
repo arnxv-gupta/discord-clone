@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-export default function ChatStatement({authorID, text, timestamp}) {
+export default function ChatItem({authorID, text, timestamp}) {
 
     const [data, setData] = useState(null);
     const [time, setTime] = useState("");
@@ -45,18 +45,18 @@ export default function ChatStatement({authorID, text, timestamp}) {
     }
 
     return (
-        <li className="p-3">
-            <div className="flex items-center mb-2">
+        <li className="py-2 px-6 hover:bg-[#2E3035]" >
+            <div className="flex items-center mb-1">
                 <img 
                     src={(data.pfpURL==null)?"http://velocityacademy.org/wp-content/uploads/2016/03/placeholder.jpg":data.pfpURL}
                     className="rounded-full size-8 mr-3"
                 />
-                <div>
+                <div className="flex items-baseline">
                     <h5>{data.username}</h5>
-                    <time className="text-xs text-[#b5b5b5]">{time}</time>
+                    <time className="text-xs text-[#b5b5b5] ml-2">{time}</time>
                 </div>
             </div>
-            <span>{text}</span>
+            <pre className="whitespace-normal">{text}</pre>
         </li>
     )
 }

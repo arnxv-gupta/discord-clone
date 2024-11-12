@@ -7,17 +7,18 @@ export default function ChatInput({userID, serverID, chatID}) {
     const inputRef = useRef(null);
 
     return (
-        <div className="mt-4 p-3 bg-[#383A40] flex items-center rounded-lg">
+        <div className="mx-3 mt-4 p-3 bg-[#383A40] flex items-center rounded-lg">
         <div className=" bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
         <FaPlus className="text-gray-300" />
         </div>
-        <input
+        <pre
         className="flex-grow block ml-3 border-none bg-transparent text-white placeholder-gray-400 focus:outline-none transition duration-200"
         placeholder="Type a message"
         spellCheck={false}
         autoFocus={true}
         ref={inputRef}
-        />
+        contentEditable={true}
+        ></pre>
         <button
         onClick={()=>{
             fetch("http://localhost:3030/sendMessage", {
@@ -29,7 +30,7 @@ export default function ChatInput({userID, serverID, chatID}) {
                     authorID:userID,
                     serverID: serverID,
                     channelID: chatID,
-                    text: inputRef.current.value
+                    text: inputRef.current.innerText
                 })
             }).then(res=>res.text()).then(data=>{
                 console.log(data);
