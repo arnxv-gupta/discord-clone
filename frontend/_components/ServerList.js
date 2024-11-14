@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import ServerDialogue from "./ServerDialogue";
 import Link from "next/link";
 import Image from "next/image"; 
 import ServerItem from "./ServerItem";
 
 
-const ServerList = () => {
+const ServerList = memo(() => {
   const [isDialog, setIsDialog] = useState(false);
   const [servers, setServers] = useState([]);
 
@@ -52,6 +52,6 @@ const ServerList = () => {
       </ul>
     </>
   );
-};
+});
 
 export default ServerList;
