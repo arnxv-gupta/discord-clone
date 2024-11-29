@@ -5,22 +5,30 @@ import ChatWindow from "@/_components/ChatWindow";
 import MemberList from "@/_components/MemberList";
 import { useEffect, useState } from "react";
 import FriendsList from "@/_components/FriendsList";
+import useWebSocket from "@/app/hooks/useWebSocket";
 
 export default function Channels({params}) {
         
-    const [data, setData]= useState(null);
-    console.log(params.slug);
+    const [data, setData] = useState(null);
+    const {socketData, setSocketData, sendMessage} = useWebSocket("http://localhost:3030");
+    // console.log(params.slug);
     
     useEffect(()=>{
-        
-        fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
-            if(data.type=="SUCCESS") { 
-                console.log(data.res);
-                setData(data.res)
+            console.log(socketData);
+            
+            if(socketData=="UPDATE") {
+                console.log("getting dchat");
+                fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
+                    if(data.type=="SUCCESS") { 
+                        //console.log(data.res);
+                        setData(data.res)
+                    }
+                });
+                                
+                setSocketData("");
+                //sendMessage("UPDATED!")
             }
-
-        });
-    }, [])
+    })
 
     return (
         (params.slug[0]=="%40me")?(
@@ -34,7 +42,7 @@ export default function Channels({params}) {
             ):(
                 <div className="flex">
                 <ServerList />
-                <ChannelList data={data} key={"ChannelList"}/>
+                <ChannelList data={data} />
                 <ChatWindow serverID={params.slug[0]} chatData={data} chatID={params.slug[1]}/>
                 <MemberList data={data}/>
                 </div>

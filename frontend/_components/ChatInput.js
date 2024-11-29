@@ -1,8 +1,9 @@
 "use client"
-import { useRef } from 'react';
+import useWebSocket from '@/app/hooks/useWebSocket';
+import { useEffect, useRef, useState } from 'react';
 import { FaPlus, FaGift, FaRegSmile } from 'react-icons/fa';
 
-export default function ChatInput({userID, serverID, chatID}) {
+export default function ChatInput({userID, serverID, chatID, sendMessage}) {
 
     const inputRef = useRef(null);
 
@@ -21,6 +22,7 @@ export default function ChatInput({userID, serverID, chatID}) {
         ></pre>
         <button
         onClick={()=>{
+            
             fetch("http://localhost:3030/sendMessage", {
                 method: "post",
                 headers: {
@@ -34,7 +36,7 @@ export default function ChatInput({userID, serverID, chatID}) {
                 })
             }).then(res=>res.text()).then(data=>{
                 console.log(data);
-                
+                sendMessage("MESSAGE RECEIVED!")
             })
         }}>
             Send

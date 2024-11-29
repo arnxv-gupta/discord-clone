@@ -35,9 +35,20 @@ const ServerDialogue = () => {
     setIsNotSure(false); 
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) setSelectedFile(URL.createObjectURL(file));
+  const handleFileChange = (e) => {
+      let data = new FormData();
+      data.append("image", e.target.files[0]);
+      fetch("http://localhost:3030/uploadImage", {
+        method: "POST",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.type == "SUCCESS") {
+            localStorage.setItem("serverImage", data.res);
+          }
+        });
   };
 
   const handleImageClick = () => {
@@ -122,7 +133,7 @@ const ServerDialogue = () => {
                 fetch("http://localhost:3030/createServer", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ name: serverNameRef.current.value, adminID: localStorage.getItem("userID") }),
+                  body: JSON.stringify({ name: serverNameRef.current.value,icon: localStorage.getItem("serverImage"), adminID: localStorage.getItem("userID") }),
                 })
                 .then((res) => res.text())
                 .then((data) => console.log(data));

@@ -6,14 +6,9 @@ const UserItem = ({userID}) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(()=>{
-    console.log(userID);
-    
-    console.log(`http://localhost:3030/userInfo?userID=${userID}`);
-    
    async function getData() {
     await fetch(`http://localhost:3030/userInfo?userID=${userID}`).then(res=>res.json()).then(data=>{
-      console.log(data);
-      
+      //console.log(data);
       setUserData(data.res);
     })
    }

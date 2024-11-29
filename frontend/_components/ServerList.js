@@ -16,9 +16,7 @@ const ServerList = memo(() => {
       await fetch(`http://localhost:3030/userInfo?userID=${localStorage.getItem("userID")}`)
         .then((res) => res.json())
         .then(async (data) => {
-
-          console.log(data);
-          
+          //console.log(data);
           setServers(await data.res.joinedServers);
         });
     }
