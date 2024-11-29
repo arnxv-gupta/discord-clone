@@ -5,6 +5,7 @@ const getServer = require("../controllers/getServer");
 const joinServer = require("../controllers/joinServer");
 const createServer = require("../controllers/createServer")
 const sendMessage = require("../controllers/sendMessage")
+const createChannel = require("../controllers/createChannel");
 
 router.post("/createServer", async (req, res)=>{
     res.json(await createServer(req));
@@ -13,6 +14,11 @@ router.post("/createServer", async (req, res)=>{
 router.get("/joinServer", async (req, res)=>{
     res.json(await joinServer(req));
 });
+
+router.get("/createChannel", async (req, res)=>{
+    res.json(await createChannel(req));
+});
+
 
 // info
 router.get("/serverInfo", async (req, res)=>{

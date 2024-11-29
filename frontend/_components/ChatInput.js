@@ -22,7 +22,6 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
         ></pre>
         <button
         onClick={()=>{
-            
             fetch("http://localhost:3030/sendMessage", {
                 method: "post",
                 headers: {
@@ -36,6 +35,7 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
                 })
             }).then(res=>res.text()).then(data=>{
                 //console.log(data);
+                inputRef.current.innerText = null;         
                 sendMessage("MESSAGE RECEIVED!")
             })
         }}>

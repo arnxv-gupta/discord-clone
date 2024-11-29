@@ -45,18 +45,20 @@ export default function ChatItem({authorID, text, timestamp}) {
     }
 
     return (
-        <li className="py-2 px-6 hover:bg-[#2E3035]" >
-            <div className="flex items-center mb-1">
-                <img 
-                    src={(data.pfpURL==null)?"http://velocityacademy.org/wp-content/uploads/2016/03/placeholder.jpg":data.pfpURL}
-                    className="rounded-full size-8 mr-3"
-                />
-                <div className="flex items-baseline">
-                    <h5>{data.username}</h5>
-                    <time className="text-xs text-[#b5b5b5] ml-2">{time}</time>
+        <li className="py-2 px-6 hover:bg-[#2E3035] flex" >
+            <img 
+                src={(data.pfpURL==null)?"http://velocityacademy.org/wp-content/uploads/2016/03/placeholder.jpg":data.pfpURL}
+                className="rounded-full size-8 mr-3 mt-1"
+            />
+            <div>
+                <div className="flex items-center mb-1">
+                    <div className="flex items-baseline">
+                        <h5>{data.username}</h5>
+                        <time className="text-xs text-[#b5b5b5] ml-2">{time}</time>
+                    </div>
                 </div>
+                <pre className="whitespace-normal">{text}</pre>
             </div>
-            <pre className="whitespace-normal">{text}</pre>
         </li>
     )
 }

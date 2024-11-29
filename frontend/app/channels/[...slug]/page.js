@@ -11,18 +11,16 @@ export default function Channels({params}) {
         
     const [data, setData] = useState(null);
     const {socketData, setSocketData, sendMessage} = useWebSocket("http://localhost:3030");
-    // console.log(params.slug);
-    
+
     useEffect(()=>{
         console.log("Data updated...");
-        
         fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
             if(data.type=="SUCCESS") {
                 let nData = data.res;
                 setData(nData)
-                
             }
         });
+
     }, [socketData])
 
     return (
