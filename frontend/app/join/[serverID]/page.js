@@ -1,9 +1,17 @@
 'use client';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 export default function Join({params}) {
-    const username = localStorage.getItem("userID");  
-    const profileImageUrl = '/profile.jpg';     
+    const username = localStorage.getItem("userID");    
+
+    const [data, setData] = useState(null);
+    
+    useEffect(()=>{
+        fetch(`http://localhost:3030/serverInfo?serverID=${params.serverID}`).then(res=>res.json()).then(data=>{
+            setData(data.res);
+        })
+    }, [])
 
     return (
         <div
@@ -24,8 +32,8 @@ export default function Join({params}) {
                 }}
             >
                 <div className="flex justify-center">
-                    <Image
-                        src={profileImageUrl} 
+                    <img
+                        src={(data!=null)?data.serverIcon:null} 
                         alt="Profile Image"
                         width={120}
                         height={120}

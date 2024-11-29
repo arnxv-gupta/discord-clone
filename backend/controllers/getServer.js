@@ -8,6 +8,7 @@ async function getServer(req) {
     if(data==null) {
         return {type: "ERROR", msg: "Invalid serverID"};
     } else {
+        console.log(data.channels);
         return {type: "SUCCESS", msg: `Server found`, res: data};
     }
 }

@@ -34,8 +34,8 @@ const ServerList = memo(() => {
 
         <ul className="w-full flex flex-col items-center space-y-2">
           {servers.length > 0 &&
-            servers.map((server, index) => (
-              <ServerItem icon={null} alt={server} link={`/channels/${server}`} key={server} />
+            servers.map((id, index) => (
+              <ServerItem id={id} link={`/channels/${id}`} key={id} />
             ))}
         </ul>
 

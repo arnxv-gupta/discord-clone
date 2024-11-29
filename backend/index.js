@@ -47,12 +47,11 @@ const wsServer = new webSocket.Server({server});
 
 wsServer.on("connection", (ws)=>{
         //.log('New client connected');
-
+        
         //ws.send("UPDATE")
         ws.on("message", (data)=>{
-
         console.log(data.toString());
-        ws.send(Date.now())
+        wsServer.clients.forEach(client => client.send(Date.now()));
         })
         ws.on("close", ()=>{
            // console.log("Client disconnected!");  

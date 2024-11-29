@@ -14,21 +14,16 @@ export default function Channels({params}) {
     // console.log(params.slug);
     
     useEffect(()=>{
-            console.log(socketData);
-            
-            if(socketData=="UPDATE") {
-                console.log("getting dchat");
-                fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
-                    if(data.type=="SUCCESS") { 
-                        //console.log(data.res);
-                        setData(data.res)
-                    }
-                });
-                                
-                setSocketData("");
-                //sendMessage("UPDATED!")
+        console.log("Data updated...");
+        
+        fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
+            if(data.type=="SUCCESS") {
+                let nData = data.res;
+                setData(nData)
+                
             }
-    })
+        });
+    }, [socketData])
 
     return (
         (params.slug[0]=="%40me")?(
@@ -43,7 +38,7 @@ export default function Channels({params}) {
                 <div className="flex">
                 <ServerList />
                 <ChannelList data={data} />
-                <ChatWindow serverID={params.slug[0]} chatData={data} chatID={params.slug[1]}/>
+                <ChatWindow serverID={params.slug[0]} chatData={(data!=null && data.channels.length!=0 && params.slug[1])?data.channels.filter((el) => {return el.channelID == params.slug[1];})[0].data:null} chatID={params.slug[1]} sendMessage={sendMessage} socketData={socketData}/>
                 <MemberList data={data}/>
                 </div>
             )

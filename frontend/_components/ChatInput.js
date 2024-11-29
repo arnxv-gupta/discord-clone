@@ -35,7 +35,7 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
                     text: inputRef.current.innerText
                 })
             }).then(res=>res.text()).then(data=>{
-                console.log(data);
+                //console.log(data);
                 sendMessage("MESSAGE RECEIVED!")
             })
         }}>
