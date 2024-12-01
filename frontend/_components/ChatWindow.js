@@ -32,7 +32,7 @@ const ChatWindow = ({ serverID, chatData, chatID, sendMessage, socketData }) => 
   }
 
   return (
-    <div className="flex-1 py-6 flex flex-col justify-between bg-[#313338]  max-h-[100lvh] ">
+    <div className="flex-1 pb-6 flex flex-col justify-between bg-[#313338]  max-h-[100lvh] ">
       <ul className="divide-y divide-gray-600 overflow-y-scroll">
         {data.map((el) => {
           return (
