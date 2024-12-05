@@ -6,7 +6,7 @@ export default function ServerItem({id, link}) {
     const [data, setData] = useState(null);
 
     useEffect(()=>{
-        fetch(`http://localhost:3030/serverInfo?serverID=${id}`).then(res=>res.json()).then(data=>{
+        fetch(`https://discord.avirana.com/serverInfo?serverID=${id}`).then(res=>res.json()).then(data=>{
             setData(data.res);
         })
     }, [])
