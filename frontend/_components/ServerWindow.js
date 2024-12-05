@@ -11,7 +11,7 @@ export default function ServerWindow({sendMessage, socketData}) {
 
     useEffect(()=>{
         console.log("Data updated...");
-        fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
+        fetch(`https://discord.avirana.com/serverInfo?serverID=${params.slug[0]}`).then(res=>res.json()).then(data=>{
             if(data.type=="SUCCESS") {
                 let nData = data.res;
                 console.log(nData);

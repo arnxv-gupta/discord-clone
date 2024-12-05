@@ -6,7 +6,7 @@ export default function FriendsList() {
     const [data, setData] = useState(null)
 
     useEffect(() => {
-        fetch(`http://localhost:3030/userInfo?userID=${localStorage.getItem("userID")}`)
+        fetch(`https://discord.avirana.com/userInfo?userID=${localStorage.getItem("userID")}`)
         .then((res) => res.json())
         .then(async (data) => {
 

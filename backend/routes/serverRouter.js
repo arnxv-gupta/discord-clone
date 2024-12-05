@@ -19,6 +19,8 @@ router.get("/createChannel", async (req, res)=>{
     res.json(await createChannel(req));
 });
 
+router.get()
+
 
 // info
 router.get("/serverInfo", async (req, res)=>{

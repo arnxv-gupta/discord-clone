@@ -22,7 +22,7 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
         ></pre>
         <button
         onClick={()=>{
-            fetch("http://localhost:3030/sendMessage", {
+            fetch("https://discord.avirana.com/sendMessage", {
                 method: "post",
                 headers: {
                     "Content-Type": "application/json"

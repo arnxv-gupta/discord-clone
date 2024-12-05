@@ -38,7 +38,7 @@ const ServerDialogue = () => {
   const handleFileChange = (e) => {
       let data = new FormData();
       data.append("image", e.target.files[0]);
-      fetch("http://localhost:3030/uploadImage", {
+      fetch("https://discord.avirana.com/uploadImage", {
         method: "POST",
         body: data,
       })
@@ -130,7 +130,7 @@ const ServerDialogue = () => {
             <div className="flex justify-between mt-auto">
               <button className="bg-gray-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-gray-500 transition duration-200" onClick={handleBackClick}>Back</button>
               <button className="bg-[#5865F2] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#4853d4] transition duration-200" onClick={() => {
-                fetch("http://localhost:3030/createServer", {
+                fetch("https://discord.avirana.com/createServer", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ name: serverNameRef.current.value,icon: localStorage.getItem("serverImage"), adminID: localStorage.getItem("userID") }),

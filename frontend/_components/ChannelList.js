@@ -48,7 +48,7 @@ const ChannelList = ({ data }) => {
         {data.channels.length > 0 && (
           <ul>
             {data.channels.map((el, i) => (
-              <ChannelItem key={i} link={`/channels/${data.serverID}/${el.channelID}/`} icon="#" name={el.name} />
+              <ChannelItem key={i} link={`/channels/${data.serverID}/${el.channelID}/`} name={el.name} />
             ))}
           </ul>
         )}

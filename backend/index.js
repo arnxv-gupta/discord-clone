@@ -53,6 +53,7 @@ wsServer.on("connection", (ws)=>{
         console.log(data.toString());
         wsServer.clients.forEach(client => client.send(Date.now()));
         })
+
         ws.on("close", ()=>{
            // console.log("Client disconnected!");  
         })

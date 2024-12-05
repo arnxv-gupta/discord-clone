@@ -5,6 +5,7 @@ async function createChannel(req) {
 
     let channelObj = {
         name:req.query.name,
+        type:req.query.type,
         createdAt: Date.now(),
         channelID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
         data:[]

@@ -35,7 +35,7 @@ export default function ChatItem({authorID, text, timestamp}) {
     }
 
     useEffect(()=>{
-        fetch(`http://localhost:3030/userInfo?userID=${authorID}`).then(res=>res.json()).then(data=>{
+        fetch(`https://discord.avirana.com/userInfo?userID=${authorID}`).then(res=>res.json()).then(data=>{
             setData(data.res)
         })
     }, [])

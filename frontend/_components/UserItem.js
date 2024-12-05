@@ -7,7 +7,7 @@ const UserItem = ({userID}) => {
 
   useEffect(()=>{
    async function getData() {
-    await fetch(`http://localhost:3030/userInfo?userID=${userID}`).then(res=>res.json()).then(data=>{
+    await fetch(`https://discord.avirana.com/userInfo?userID=${userID}`).then(res=>res.json()).then(data=>{
       //console.log(data);
       setUserData(data.res);
     })
