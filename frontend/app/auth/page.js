@@ -17,7 +17,7 @@ export default function Auth() {
       };
       console.log(loginObj);
 
-      fetch("https://discord.avirana.com/loginAccount", {
+      fetch("http://localhost:3030/loginAccount", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export default function Auth() {
 
       console.log(signUpObj);
 
-      fetch("https://discord.avirana.com/createAccount", {
+      fetch("http://localhost:3030/createAccount", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default function Auth() {
             onChange={(e) => {
               let data = new FormData();
               data.append("image", e.target.files[0]);
-              fetch("https://discord.avirana.com/uploadImage", {
+              fetch("http://localhost:3030/uploadImage", {
                 method: "POST",
                 body: data,
               })

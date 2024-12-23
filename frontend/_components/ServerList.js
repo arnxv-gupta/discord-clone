@@ -13,7 +13,7 @@ const ServerList = memo(() => {
 
   useEffect(() => {
     async function getServerInfo() {
-      await fetch(`https://discord.avirana.com/userInfo?userID=${localStorage.getItem("userID")}`)
+      await fetch(`http://localhost:3030/userInfo?userID=${localStorage.getItem("userID")}`)
         .then((res) => res.json())
         .then(async (data) => {
           //console.log(data);

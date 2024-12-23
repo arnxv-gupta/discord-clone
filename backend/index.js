@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const multer = require("multer")
 const path = require("path")
-const getDb = require("./controllers/getDb.js")
 const storage = multer.diskStorage({
     destination: (req, file, cb)=>{
         cb(null, "./uploads");
@@ -25,7 +24,7 @@ const PORT = 3030;
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("/uploads"));
 
 const serverRouter = require("./routes/serverRouter.js")
 const authRouter = require("./routes/authRouter.js")

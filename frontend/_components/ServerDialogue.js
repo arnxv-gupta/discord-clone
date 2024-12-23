@@ -1,6 +1,8 @@
+import { useRouter } from 'next/navigation';
 import React, { useState, useRef } from 'react';
 
 const ServerDialogue = () => {
+  const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1); 
   const [isNotSure, setIsNotSure] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -38,7 +40,7 @@ const ServerDialogue = () => {
   const handleFileChange = (e) => {
       let data = new FormData();
       data.append("image", e.target.files[0]);
-      fetch("https://discord.avirana.com/uploadImage", {
+      fetch("http://localhost:3030/uploadImage", {
         method: "POST",
         body: data,
       })
@@ -130,13 +132,19 @@ const ServerDialogue = () => {
             <div className="flex justify-between mt-auto">
               <button className="bg-gray-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-gray-500 transition duration-200" onClick={handleBackClick}>Back</button>
               <button className="bg-[#5865F2] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#4853d4] transition duration-200" onClick={() => {
-                fetch("https://discord.avirana.com/createServer", {
+                fetch("http://localhost:3030/createServer", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ name: serverNameRef.current.value,icon: localStorage.getItem("serverImage"), adminID: localStorage.getItem("userID") }),
                 })
-                .then((res) => res.text())
-                .then((data) => console.log(data));
+                .then((res) => res.json())
+                .then((data) => {
+                  console.log(data);
+                  
+                  if(data.type=="SUCCESS") {
+                    router.push(`/channels/${data.data}`)
+                  }
+                });
               }}>
                 Create
               </button>

@@ -6,7 +6,7 @@ import ServerWindow from "@/_components/ServerWindow";
 
 export default function Channels() {
         
-    const {socketData, setSocketData, sendMessage} = useWebSocket("https://discord.avirana.com/");
+    const {socketData, setSocketData, sendMessage} = useWebSocket("http://localhost:3030/");
 
     return (
     <div className="flex">

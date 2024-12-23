@@ -26,7 +26,7 @@ async function createServer(req) {
         await db.collection("userData").updateOne({_id:userObj._id}, {$push: {joinedServers: serverObj.serverID}});
         await db.collection("serverData").insertOne(serverObj);
         console.log(serverObj)
-        return {type: "SUCCESS", msg: `Server created! ID: ${serverObj.serverID}`};
+        return {type: "SUCCESS", data: serverObj.serverID};
     }
 }
 
