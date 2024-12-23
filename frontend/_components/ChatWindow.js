@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
 import ChatInput from "./ChatInput";
+import e from "cors";
 
 const ChatWindow = ({ serverID, chatData, chatID, sendMessage, socketData }) => {
   if (chatData == null || chatID == undefined) {
@@ -41,6 +42,7 @@ const ChatWindow = ({ serverID, chatData, chatID, sendMessage, socketData }) => 
               text={el.data}
               timestamp={el.timestamp}
               key={el.timestamp}
+              image={el.image}
             />
           );
         })}

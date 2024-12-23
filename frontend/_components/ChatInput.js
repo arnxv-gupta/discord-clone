@@ -5,12 +5,31 @@ import { FaPlus, FaGift, FaRegSmile } from 'react-icons/fa';
 
 export default function ChatInput({userID, serverID, chatID, sendMessage}) {
 
+    const [imageURL, setImageURL] = useState(null)
     const inputRef = useRef(null);
 
     return (
         <div className="mx-3 mt-4 p-3 bg-[#383A40] flex items-center rounded-lg">
         <div className=" bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
-        <FaPlus className="text-gray-300" />
+        <label for="imageUploader">
+        <FaPlus className="text-gray-300"/>
+        </label>
+        <input className="hidden" id="imageUploader" type="file" accept="image/*" onChange={(e)=>{
+            console.log("a");
+            
+            let formData = new FormData()
+            formData.append("image", e.target.files[0]);
+            fetch("http://localhost:3030/uploadImage", {
+                method: "POST",
+                body: formData
+            }).then(res=>res.json()).then(data=>{
+                console.log(data);
+                if(data.type=="SUCCESS") {
+                    setImageURL(data.res);
+                }  
+            })
+            
+        }}/>
         </div>
         <pre
         className="flex-grow block ml-3 border-none bg-transparent text-white placeholder-gray-400 focus:outline-none transition duration-200"
@@ -31,7 +50,8 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
                     authorID:userID,
                     serverID: serverID,
                     channelID: chatID,
-                    text: inputRef.current.innerText
+                    text: inputRef.current.innerText,
+                    image: imageURL
                 })
             }).then(res=>res.text()).then(data=>{
                 //console.log(data);

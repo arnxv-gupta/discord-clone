@@ -5,7 +5,8 @@ async function sendMessage(req) {
     let chatObj = {
         authorID: req.body.authorID,
         timestamp: Date.now(),
-        data: req.body.text
+        data: req.body.text,
+        image: req.body.image
     }
     let data = await db.collection("serverData").findOne({serverID: Number(req.body.serverID), "channels.channelID": Number(req.body.channelID)});
     //console.log(data);

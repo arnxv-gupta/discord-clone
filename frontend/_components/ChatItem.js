@@ -2,38 +2,11 @@
 
 import { useEffect, useState } from "react"
 
-export default function ChatItem({authorID, text, timestamp}) {
+export default function ChatItem({authorID, text, timestamp, image}) {
 
     const [data, setData] = useState(null);
-    const [time, setTime] = useState("");
-
-    useEffect(()=>{        
-        convertTime((Date.now()-Number(timestamp))/1000);
-    })
-
-
-    function convertTime(time) {
-        let convertedString="";
-
-            if(time>=43200) {
-                // this is wrong
-                convertedString = (new Date(time).getDate() + "/" + (new Date(time).getMonth()+1) + "/" + new Date(time).getFullYear());
-            } else if(time>=3600) {
-                convertedString+=Math.floor(time/3600) + " hours ";
-                time=Math.floor(time%3600)
-           } else if(time>=60) {
-                convertedString+=Math.floor(time/60) + " minutes ";
-                time= Math.floor(time%60);
-            } else {
-                convertedString+= Math.floor(time) + " seconds";
-                time=0;
-            }
+    const [time, setTime] = useState(new Date(timestamp).toDateString());
     
-
-        convertedString+=" ago";
-        setTime(convertedString);
-    }
-
     useEffect(()=>{
         fetch(`http://localhost:3030/userInfo?userID=${authorID}`).then(res=>res.json()).then(data=>{
             setData(data.res)
@@ -57,6 +30,7 @@ export default function ChatItem({authorID, text, timestamp}) {
                         <time className="text-xs text-[#b5b5b5] ml-2">{time}</time>
                     </div>
                 </div>
+                {image!=null?<img src={image} />:null}
                 <pre className="whitespace-normal">{text}</pre>
             </div>
         </li>

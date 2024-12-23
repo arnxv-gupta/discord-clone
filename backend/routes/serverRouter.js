@@ -15,7 +15,7 @@ router.get("/joinServer", async (req, res)=>{
     res.json(await joinServer(req));
 });
 
-router.get("/createChannel", async (req, res)=>{
+router.post("/createChannel", async (req, res)=>{
     res.json(await createChannel(req));
 });
 
