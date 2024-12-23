@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
 import ChatInput from "./ChatInput";
-import e from "cors";
+import { appContext } from "./ServerWindow";
 
-const ChatWindow = ({ serverID, chatData, chatID, sendMessage, socketData }) => {
-  if (chatData == null || chatID == undefined) {
+const ChatWindow = ({sendMessage, socketData }) => {
+  const data = useContext(appContext);
+
+  if (data == null || !data.currChannel) {
     return (
       <div className="flex-1 p-6 flex flex-col justify-between bg-[#313338]">
         <small>This looks empty.. too empty :(</small>{" "}
@@ -12,20 +14,14 @@ const ChatWindow = ({ serverID, chatData, chatID, sendMessage, socketData }) => 
     );
   }
 
-  const [data, setData] = useState(chatData);
-
-  useEffect(()=>{
-    setData(chatData)
-  }, [chatData.length])  
-
-  if (data == null || data.length == 0) {
+  if (data != null && data.channels[data.channels.findIndex((channel)=>data.currChannel==channel.channelID)].data.length==0) {
     return (
       <div className="flex-1 p-6 flex flex-col justify-between bg-[#313338]">
         <small>This looks empty.. too empty :(</small>
         <ChatInput
           userID={localStorage.getItem("userID")}
-          serverID={serverID}
-          chatID={chatID}
+          serverID={data.serverID}
+          chatID={data.currChannel}
           sendMessage={sendMessage}
         />
       </div>
@@ -35,7 +31,9 @@ const ChatWindow = ({ serverID, chatData, chatID, sendMessage, socketData }) => 
   return (
     <div className="flex-1 pb-6 flex flex-col justify-between bg-[#313338]  max-h-[100lvh] ">
       <ul className="divide-y divide-gray-600 overflow-y-scroll">
-        {data.map((el) => {
+        {data.channels[data.channels.findIndex((channel)=>{
+          return data.currChannel==channel.channelID;
+        })].data.map((el) => {
           return (
             <ChatItem
               authorID={el.authorID}
@@ -49,8 +47,8 @@ const ChatWindow = ({ serverID, chatData, chatID, sendMessage, socketData }) => 
       </ul>
       <ChatInput
         userID={localStorage.getItem("userID")}
-        serverID={serverID}
-        chatID={chatID}
+        serverID={data.serverID}
+        chatID={data.currChannel}
         sendMessage={sendMessage}
       />
     </div>

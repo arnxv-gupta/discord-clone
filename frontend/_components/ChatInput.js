@@ -8,10 +8,29 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
     const [imageURL, setImageURL] = useState(null)
     const inputRef = useRef(null);
 
+    function send() {
+        fetch("http://localhost:3030/sendMessage", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                authorID:userID,
+                serverID: serverID,
+                channelID: chatID,
+                text: inputRef.current.innerText,
+                image: imageURL
+            })
+        }).then(res=>res.text()).then(data=>{
+            //console.log(data);
+            inputRef.current.innerText = null;         
+            sendMessage("MESSAGE RECEIVED!")
+        })
+    }
+
     return (
         <div className="mx-3 mt-4 p-3 bg-[#383A40] flex items-center rounded-lg">
-        <div className=" bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
-        <label for="imageUploader">
+        <label for="imageUploader" className=" bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
         <FaPlus className="text-gray-300"/>
         </label>
         <input className="hidden" id="imageUploader" type="file" accept="image/*" onChange={(e)=>{
@@ -30,7 +49,9 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
             })
             
         }}/>
-        </div>
+        <img src={imageURL} className={`ml-2 w-8 h-8 ${imageURL?"block":"hidden"}`} onClick={()=>{
+            setImageURL(null)
+        }}/>
         <pre
         className="flex-grow block ml-3 border-none bg-transparent text-white placeholder-gray-400 focus:outline-none transition duration-200"
         placeholder="Type a message"
@@ -38,27 +59,15 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
         autoFocus={true}
         ref={inputRef}
         contentEditable={true}
+        onKeyDown={(e)=>{
+            if(e.code=="Enter") { 
+                e.preventDefault()
+                send();
+            }
+        }}
         ></pre>
         <button
-        onClick={()=>{
-            fetch("http://localhost:3030/sendMessage", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    authorID:userID,
-                    serverID: serverID,
-                    channelID: chatID,
-                    text: inputRef.current.innerText,
-                    image: imageURL
-                })
-            }).then(res=>res.text()).then(data=>{
-                //console.log(data);
-                inputRef.current.innerText = null;         
-                sendMessage("MESSAGE RECEIVED!")
-            })
-        }}>
+        onClick={send}>
             Send
         </button>
     </div>

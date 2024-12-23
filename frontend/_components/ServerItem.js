@@ -12,14 +12,14 @@ export default function ServerItem({id, link}) {
     }, [])
 
     return (
-        <li className="w-12 h-12 mb-4">
+        <li className="w-12 h-12 my-2">
             <Link href={link}>
                 <img
-                src={(data!=null)?data.serverIcon:null}
+                src={(id!=null)?(data?data.serverIcon:null):"/image.png"}
                 alt={id}
                 width={48}
                 height={48}
-                className="object-contain opacity-100 hover:scale-110" 
+                className="object-contain opacity-100 transition rounded-full hover:rounded-sm" 
             />
             </Link>
         </li>

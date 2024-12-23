@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import UserItem from './UserItem';
+import { appContext } from './ServerWindow';
 
-const MemberList = ({data}) => {
+const MemberList = () => {
+  const data = useContext(appContext)
+
   if(data==null || data==undefined) {
-    return <span>Loading members</span>
+    return;
   }
 
   const [members, setMembers]=useState(data.membersList);
-
-  
 
   return (
     <div className="w-64 h-screen p-4 bg-[#2B2D31]">

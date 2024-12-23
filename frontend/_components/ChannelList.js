@@ -1,13 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ChannelItem from "./ChannelItem";
 import ServerDropDown from "./ServerDropDown";
+import {appContext} from "./ServerWindow"
 
-const ChannelList = ({ data }) => {
+const ChannelList = () => {
+  const data = useContext(appContext)
+  console.log(data);
+  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  if (!data) return <div className="w-64 p-4 bg-[#313338]">Loading channels...</div>;
+  if (!data) return;
 
   return (
     <div className="w-64 h-screen flex flex-col bg-[#2B2D31]">
