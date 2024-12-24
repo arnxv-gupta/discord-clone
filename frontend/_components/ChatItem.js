@@ -6,7 +6,7 @@ import { appContext } from "./ServerWindow";
 
 export default function ChatItem({ authorID, text, timestamp, image }) {
     const data = useContext(appContext);
-    const [isMentioned, setIsMentioned] = useState(false)
+    const [isMentioned, setIsMentioned] = useState(text.match(`<@${localStorage.getItem("userID")}>`))
   const [authorData, setAuthorData] = useState(null);
   const [time, setTime] = useState(new Date(timestamp).toDateString());
 
@@ -23,7 +23,7 @@ export default function ChatItem({ authorID, text, timestamp, image }) {
   }
 
   return (
-    <li className={`py-2 px-6 hover:bg-[#2E3035] flex ${isMentioned?"bg-yellow-300":""}`}>
+    <li className={`py-2 px-6 flex ${isMentioned?"bg-[#444037]":"hover:bg-[#2E3035]"}`}>
       <img
         src={
           authorData.pfpURL == null

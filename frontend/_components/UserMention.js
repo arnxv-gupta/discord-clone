@@ -12,7 +12,7 @@ export default function UserMention({userID}) {
             })
     }, [])
     return (
-        <span className="bg-[#4e4f77] text-[#bcbee8] mx-1">
+        <span className="bg-[#4e4f77] text-[#bcbee8]">
             {username}
         </span>
     )
