@@ -1,9 +1,9 @@
-const getDb = require("../controllers/getDb")
+const serverModel = require("../models/serverModel");
 
 async function getServer(req) {
     
-    let db = await getDb();
-    let data = await db.collection("serverData").findOne({serverID: Number(req.query.serverID)});
+    let data = await serverModel.findOne({serverID: Number(req.query.serverID)});
+    console.log(data);
     
     if(data==null) {
         return {type: "ERROR", msg: "Invalid serverID"};

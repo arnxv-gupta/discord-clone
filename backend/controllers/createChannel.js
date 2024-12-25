@@ -1,7 +1,6 @@
-const getDb = require("../controllers/getDb");
+const serverModel = require("../models/serverModel");
 
 async function createChannel(req) {
-    let db = await getDb();
 
     let channelObj = {
         name:req.body.name,
@@ -12,7 +11,7 @@ async function createChannel(req) {
     }
     console.log(channelObj);
     
-    let nChannelObj = await db.collection("serverData").updateOne({serverID: Number(req.body.serverID)}, {$push: {channels: channelObj}});
+    let nChannelObj = await serverModel.updateOne({serverID: Number(req.body.serverID)}, {$push: {channels: channelObj}});
     console.log(nChannelObj);
     
     if(nChannelObj.modifiedCount!=1) {

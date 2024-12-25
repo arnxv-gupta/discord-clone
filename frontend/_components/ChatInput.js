@@ -22,7 +22,7 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
                 image: imageURL
             })
         }).then(res=>res.text()).then(data=>{
-            //console.log(data);
+            console.log(data);
             inputRef.current.innerText = null;         
             sendMessage("MESSAGE RECEIVED!")
         })

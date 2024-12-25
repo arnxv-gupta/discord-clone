@@ -1,11 +1,9 @@
-const getDb = require("../controllers/getDb")
+const userModel = require("../models/userModel")
 
 async function createAccount(req) { 
 
-    let db = await getDb();    
-    console.log(req.body);
 
-    if(await db.collection("userData").findOne({email: req.body.email})!=null) {
+    if(await userModel.exists({email: req.body.email})) {
         // user already exists
         return {type:"ERROR",msg: "User already exists!"};
     } else {
@@ -14,22 +12,10 @@ async function createAccount(req) {
             email: req.body.email,
             password: req.body.password,
             username: req.body.username,
-            userID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
             pfpURL: req.body.pfpImage,
-            createdAt: Date.now(),
-            onlinePresence: "offline",
-            joinedServers:[],
-            friends: []
         }
 
-        await db.collection("userData").insertOne(userObj, (err, res)=>{
-            if(err) {
-                console.log(err);
-            } else {
-                console.log("Created new user!");
-                
-            }
-        });
+        await userModel.create(userObj);
 
         return {type: "SUCCESS", msg: "Created new user."};
     }
