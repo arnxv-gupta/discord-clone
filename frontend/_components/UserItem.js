@@ -25,6 +25,7 @@ const UserItem = ({userID}) => {
         className="w-9 h-9 bg-gray-600 rounded-full"
         src={(userData!=null?(userData.pfpURL):("Loading"))}
         />
+        <span>{(userData!=null)?userData.onlinePresence:null}</span>
         <div className="ml-2">
           <p className="font-bold">{(userData!=null?(userData.username):("Loading"))}</p>
         </div>

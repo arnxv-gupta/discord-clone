@@ -9,10 +9,10 @@ async function createChannel(req) {
         channelID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
         data:[]
     }
-    console.log(channelObj);
+    //console.log(channelObj);
     
     let nChannelObj = await serverModel.updateOne({serverID: Number(req.body.serverID)}, {$push: {channels: channelObj}});
-    console.log(nChannelObj);
+    //console.log(nChannelObj);
     
     if(nChannelObj.modifiedCount!=1) {
         return {type: "ERROR", msg: "Unable to find server! Invalid serverID."};

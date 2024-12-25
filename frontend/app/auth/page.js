@@ -89,6 +89,7 @@ export default function Auth() {
           <input
             type="file"
             name="pfpImage"
+            accept="image/*"
             onChange={(e) => {
               let data = new FormData();
               data.append("image", e.target.files[0]);

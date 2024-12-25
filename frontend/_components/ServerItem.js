@@ -6,7 +6,7 @@ export default function ServerItem({id, link}) {
     const [data, setData] = useState(null);
 
     useEffect(()=>{
-        if(id!=null)
+        if(id!=null) 
         fetch(`http://localhost:3030/serverInfo?serverID=${id}`).then(res=>res.json()).then(data=>{
             setData(data.res);
         })

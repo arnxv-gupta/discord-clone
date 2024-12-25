@@ -17,13 +17,13 @@ async function createServer(req) {
     }
 
     let userObj = await userModel.findOne({userID: Number(req.body.adminID)})
-    console.log(userObj);
+    //console.log(userObj);
     if(userObj==null) {
         // error userID not found
         return {type: "ERROR", msg: "Unable to create server! Invalid adminID."};
     } else {
-        await userModel.updateOne({userID: Number(req.body.adminID)}, {$push: {joinedServers: serverObj.serverID}});
         let server = await serverModel.create(serverObj);
+        await userModel.updateOne({userID: Number(req.body.adminID)}, {$push: {joinedServers: server.serverID}});
 
         return {type: "SUCCESS", data: server.serverID};
     }

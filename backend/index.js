@@ -40,23 +40,31 @@ app.get("/", (req, res)=>{
     res.send("Generated!")
 })
 
-
+let updateUser = require("./controllers/updateUser.js")
 
 const wsServer = new webSocket.Server({server});
 
 wsServer.on("connection", (ws)=>{
-        //.log('New client connected');
+        console.log('New client connected');
         
         //ws.send("UPDATE")
         ws.on("message", (data)=>{
-        console.log(data.toString());
-        wsServer.clients.forEach(client => client.send(Date.now()));
+            if(data.toString()!="MESSAGE RECEIVED!") {
+                ws.userID = Number(data.toString());
+                //temp
+                updateUser({userID: Number(data.toString()), onlinePresence: "online"});
+            } else {
+                console.log(data.toString());
+                wsServer.clients.forEach(client => client.send(Date.now()));
+            }
         })
 
         ws.on("close", ()=>{
-           // console.log("Client disconnected!");  
+            //temp
+            updateUser({userID: ws.userID, onlinePresence: "offline"});
         })
 })
+
 
 // misc
 

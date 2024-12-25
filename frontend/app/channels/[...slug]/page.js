@@ -6,7 +6,7 @@ import ServerWindow from "@/_components/ServerWindow";
 import { createContext } from "react";
 
 export default function Channels() {
-    const {socketData, setSocketData, sendMessage} = useWebSocket("http://localhost:3030/");
+    const {socketData, setSocketData, sendMessage} = useWebSocket("http://localhost:3030/", localStorage.getItem("userID"));
 
     return (
     <div className="flex">

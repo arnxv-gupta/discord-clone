@@ -5,7 +5,7 @@ async function joinServer(req) {
     //almost works
 
     let serverObj = await serverModel.findOne({serverID: Number(req.query.serverID)});
-    console.log(serverObj);
+    //console.log(serverObj);
 
     
     if(serverObj==null) {

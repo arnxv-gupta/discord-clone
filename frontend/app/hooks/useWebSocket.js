@@ -1,14 +1,18 @@
 const { useState, useEffect } = require("react")
 
-const useWebSocket = (url)=>{
+const useWebSocket = (url, userID)=>{
     const [ws, setWS] = useState(null);
-    const [socketData, setSocketData] = useState("UPDATE")
+    const [socketData, setSocketData] = useState(userID)
 
     useEffect(()=>{
 
         const socket = new WebSocket(url);
         setWS(socket);
 
+        socket.onopen = ()=>{
+            socket.send(userID)
+        }
+            
         socket.onmessage = (event) =>{
             console.log(event.data, "Data websocket!");
             

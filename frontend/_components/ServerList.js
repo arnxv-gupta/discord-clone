@@ -17,7 +17,10 @@ const ServerList = memo(() => {
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data);
+          
           setServers(await data.res.joinedServers);
+          console.log(servers);
+          
         });
     }
 
@@ -29,12 +32,12 @@ const ServerList = memo(() => {
       {isDialog && <ServerDialogue />}
 
       <ul className="p-3 h-screen flex flex-col items-center space-y-1 bg-[#1E1F22]"> 
-        <ServerItem id={null} link="/channels/@me" />
+        {/* <ServerItem id={null} link="/channels/@me" /> */}
         <hr className="w-10/12  border-gray-600" />
 
         <ul className="w-full flex flex-col items-center space-y-2">
-          {servers.length > 0 &&
-            servers.map((id, index) => (
+          {servers.length > 0  &&
+            servers.map((id) => (
               <ServerItem id={id} link={`/channels/${id}`} key={id} />
             ))}
         </ul>
