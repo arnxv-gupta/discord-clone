@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const multer = require("multer")
-const path = require("path")
+const path = require("path");
+const emitter = require("./emitter.js")
 const storage = multer.diskStorage({
     destination: (req, file, cb)=>{
         cb(null, "./uploads");
@@ -36,7 +37,6 @@ app.use("/", userRouter);
 
 
 app.get("/", (req, res)=>{
-
     res.send("Generated!")
 })
 
@@ -84,3 +84,5 @@ app.post("/uploadImage", upload.single("image"), (req, res)=>{
 server.listen(PORT, ()=>{
     console.log("Server started!");
 });
+
+module.exports = {wsServer}

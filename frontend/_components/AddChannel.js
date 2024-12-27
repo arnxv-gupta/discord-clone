@@ -26,7 +26,7 @@ export default function AddChannel({ isOpen, onClose }) {
   );
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-5000">
       <div className="bg-gray-800 text-white w-96 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-bold">Add Channels</h2>
