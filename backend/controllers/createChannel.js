@@ -1,7 +1,9 @@
 const serverModel = require("../models/serverModel");
-const emitter = require("../emitter")
+
 async function createChannel(req) {
 
+    console.log(req.body);
+    
     let channelObj = {
         name:req.body.name,
         type:req.body.type,
@@ -17,7 +19,6 @@ async function createChannel(req) {
     if(nChannelObj.modifiedCount!=1) {
         return {type: "ERROR", msg: "Unable to find server! Invalid serverID."};
     } else {
-        emitter.emit("join", "adads");
         return {type: "SUCCESS", data: channelObj.channelID};
     }
 }

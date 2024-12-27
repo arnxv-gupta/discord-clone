@@ -2,14 +2,22 @@ import { useParams } from "next/navigation";
 import ChatWindow from "@/_components/ChatWindow";
 import ChannelList from "@/_components/ChannelList";
 import MemberList from "@/_components/MemberList";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { socketContext } from '@/app/layout';
+
 
 export const appContext = createContext();
-export default function ServerWindow({ sendMessage, socketData }) {
+
+export default function ServerWindow() {
+  const {socketData, sendMessage} = useContext(socketContext)
   const [data, setData] = useState(null);
   const params = useParams();
 
+
   useEffect(() => {
+    console.log(params.slug[0]);
+    
+    if(params.slug[0]!="%40me") {
     fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`)
       .then((res) => res.json())
       .then((data) => {
@@ -20,16 +28,14 @@ export default function ServerWindow({ sendMessage, socketData }) {
           setData(nData);
         }
       });
+    }
   }, [socketData]);
 
   return (
     <>
       <appContext.Provider value={data}>
         <ChannelList/>
-        <ChatWindow
-          sendMessage={sendMessage}
-          socketData={socketData}
-        />
+        <ChatWindow/>
         <MemberList/>
       </appContext.Provider>
     </>

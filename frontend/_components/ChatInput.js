@@ -1,12 +1,20 @@
 "use client"
-import useWebSocket from '@/app/hooks/useWebSocket';
-import { useEffect, useRef, useState } from 'react';
-import { FaPlus, FaGift, FaRegSmile } from 'react-icons/fa';
 
-export default function ChatInput({userID, serverID, chatID, sendMessage}) {
+import { useContext, useEffect, useRef, useState } from 'react';
+import { FaPlus, FaGift, FaRegSmile } from 'react-icons/fa';
+import {appContext} from "./ServerWindow"
+import MentionItem from './MentionItem';
+import { socketContext } from '@/app/layout';
+
+export default function ChatInput({userID, serverID, chatID}) {
+
+    const {socketData, sendMessage} = useContext(socketContext);
+    const members = useContext(appContext)
 
     const [imageURL, setImageURL] = useState(null)
     const inputRef = useRef(null);
+
+    const [isListVisible, setListVisible] = useState(false);
 
     function send() {
         fetch("http://localhost:3030/sendMessage", {
@@ -27,9 +35,28 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
             sendMessage("MESSAGE RECEIVED!")
         })
     }
-
+    
     return (
-        <div className="mx-3 mt-4 p-3 bg-[#383A40] flex items-center rounded-lg">
+        <section>
+        {isListVisible &&
+        <div className="mx-3 p-1">
+            <ul>
+                {members!=null?members.membersList.map(el=>{
+                    if(el!=localStorage.getItem("userID"))
+                    return (
+                        <li onClick={()=>{
+                            setListVisible(false)
+                            inputRef.current.innerText = inputRef.current.innerText.substring(0, inputRef.current.innerText.length-1) + `<@${el}> `;
+                        }}>
+                    <MentionItem userID={el}/>
+                        </li>
+                )
+                }):null}
+                
+            </ul>
+        </div>
+        }
+        <div className="mx-3 p-3 bg-[#383A40] flex items-center rounded-lg">
         <label for="imageUploader" className=" bg-[#343434] p-2 rounded-full flex items-center justify-center transition duration-200">
         <FaPlus className="text-gray-300"/>
         </label>
@@ -64,6 +91,9 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
                 e.preventDefault()
                 send();
             }
+            if(e.key=="@") {
+                setListVisible(true)
+            }
         }}
         ></pre>
         <button
@@ -71,5 +101,6 @@ export default function ChatInput({userID, serverID, chatID, sendMessage}) {
             Send
         </button>
     </div>
+    </section>
     )
 }

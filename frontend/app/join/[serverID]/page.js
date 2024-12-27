@@ -1,8 +1,11 @@
 'use client';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { socketContext } from '@/app/layout';
 
 export default function Join({params}) {
+    const {socketData, sendMessage} = useContext(socketContext);
+
     const username = localStorage.getItem("userID");    
 
     const [data, setData] = useState(null);
@@ -47,6 +50,7 @@ export default function Join({params}) {
                     className="bg-blue-600 w-full py-3 px-4 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md transition-all duration-200"
                     onClick={()=>{
                         fetch(`http://localhost:3030/joinServer?serverID=${params.serverID}&userID=${localStorage.getItem("userID")}`).then(res=>res.json()).then(data=>{
+                            sendMessage("USER JOINED!")
                             console.log(data);
                             
                         })

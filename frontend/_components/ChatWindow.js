@@ -2,9 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
 import ChatInput from "./ChatInput";
 import { appContext } from "./ServerWindow";
+import { socketContext } from '@/app/layout';
 
-const ChatWindow = ({sendMessage, socketData }) => {
+
+const ChatWindow = () => {
   const data = useContext(appContext);
+  const {socketData, sendMessage} = useContext(socketContext)
 
   if (data == null || !data.currChannel) {
     return (
@@ -22,7 +25,6 @@ const ChatWindow = ({sendMessage, socketData }) => {
           userID={localStorage.getItem("userID")}
           serverID={data.serverID}
           chatID={data.currChannel}
-          sendMessage={sendMessage}
         />
       </div>
     );
@@ -49,7 +51,6 @@ const ChatWindow = ({sendMessage, socketData }) => {
         userID={localStorage.getItem("userID")}
         serverID={data.serverID}
         chatID={data.currChannel}
-        sendMessage={sendMessage}
       />
     </div>
   );

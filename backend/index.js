@@ -49,14 +49,8 @@ wsServer.on("connection", (ws)=>{
         
         //ws.send("UPDATE")
         ws.on("message", (data)=>{
-            if(data.toString()!="MESSAGE RECEIVED!") {
-                ws.userID = Number(data.toString());
-                //temp
-                updateUser({userID: Number(data.toString()), onlinePresence: "online"});
-            } else {
                 console.log(data.toString());
                 wsServer.clients.forEach(client => client.send(Date.now()));
-            }
         })
 
         ws.on("close", ()=>{
