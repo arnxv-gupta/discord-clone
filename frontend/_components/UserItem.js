@@ -1,9 +1,11 @@
 "use client"
 import React, { useEffect, useState } from 'react';
+import UserProfile from './UserProfile';
 
 const UserItem = ({userID}) => {
 
   const [userData, setUserData] = useState(null);
+  const [isProfileVisible, setProfileVisible] = useState(false)
 
   useEffect(()=>{
    async function getData() {
@@ -18,8 +20,9 @@ const UserItem = ({userID}) => {
   }, [])
 
   return (
-    <div className="p-3 text-white text-sm hover:bg-[#35373C] rounded">
-
+    <>
+    {isProfileVisible && <UserProfile userID={userData!=null?userData.userID:null}/>}
+    <div className="p-3 text-white text-sm hover:bg-[#35373C] rounded" onClick={()=>setProfileVisible(true)}>
       <div className="flex items-center">
         <img 
         className="w-9 h-9 bg-gray-600 rounded-full"
@@ -31,6 +34,7 @@ const UserItem = ({userID}) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

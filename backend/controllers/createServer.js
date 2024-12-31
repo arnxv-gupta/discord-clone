@@ -9,10 +9,18 @@ async function createServer(req) {
         membersList: [req.body.adminID],
         channels: [{
             name:"general",
+            type: "text",
             createdAt: Date.now(),
             channelID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
             data:[]
-        }],
+        },{
+            name:"general",
+            type: "voice",
+            createdAt: Date.now(),
+            channelID: Math.floor(Math.random() * (999999999 - 111111111) + 111111111),
+            data:[]
+        },
+    ],
         adminID: req.body.adminID
     }
 

@@ -1,11 +1,14 @@
 import Link from "next/link";
 import OptionItem from "./OptionItem";
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import { appContext } from "./ServerWindow";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHashtag } from '@fortawesome/free-solid-svg-icons'
+import { faHashtag, faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
 
-export default function ChannelItem({name, link}) {    
+export default function ChannelItem({name, type, link, active}) {    
+    const data = useContext(appContext);
+        console.log(data);
+        
     const [showDropdown, setDropdownVisibility] = useState(false);
     return (
         <li onContextMenu={(e)=>{
@@ -15,8 +18,8 @@ export default function ChannelItem({name, link}) {
                 setMouseCords({x: e.pageX, y: e.pageY});                
             }
         }}>
-            <Link href={link} disabled={true} className="px-3 py-2 m-2 hover:bg-[#35373C] block rounded-md disabled:hidden">
-                <span className="mr-2"><FontAwesomeIcon icon={faHashtag} /></span>
+            <Link href={link} className={`px-3 py-2 m-2 hover:bg-[#35373C] block rounded- ${active?"underline":null}`}>
+                <span className="mr-2">{type=="text"?<FontAwesomeIcon icon={faHashtag} />:<FontAwesomeIcon icon={faVolumeHigh} />}</span>
                 {name}            
             </Link>
             {

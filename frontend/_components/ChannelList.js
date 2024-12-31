@@ -6,7 +6,7 @@ import {appContext} from "./ServerWindow"
 
 const ChannelList = () => {
   const data = useContext(appContext)
-  console.log(data);
+  //console.log(data);
   
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -27,7 +27,7 @@ const ChannelList = () => {
         {data.channels.length > 0 && (
           <ul>
             {data.channels.map((el, i) => (
-              <ChannelItem key={i} link={`/channels/${data.serverID}/${el.channelID}/`} name={el.name} />
+              <ChannelItem key={i} link={`/channels/${data.serverID}/${el.channelID}/`} name={el.name} type={el.type} active={el.channelID==data.currChannel}/>
             ))}
           </ul>
         )}

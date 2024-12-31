@@ -15,8 +15,6 @@ export default function ServerWindow() {
 
 
   useEffect(() => {
-    console.log(params.slug[0]);
-    
     if(params.slug[0]!="%40me") {
     fetch(`http://localhost:3030/serverInfo?serverID=${params.slug[0]}`)
       .then((res) => res.json())
@@ -24,7 +22,6 @@ export default function ServerWindow() {
         if (data.type == "SUCCESS") {
           let nData = data.res;
           nData.currChannel=params.slug[1];
-          console.log("aa", nData);
           setData(nData);
         }
       });

@@ -49,8 +49,16 @@ wsServer.on("connection", (ws)=>{
         
         //ws.send("UPDATE")
         ws.on("message", (data)=>{
+            console.log(typeof data);
+
                 console.log(data.toString());
-                wsServer.clients.forEach(client => client.send(Date.now()));
+                if(data.toString()=="[object MediaStream]") {
+                    console.log("stream");
+                    
+                    wsServer.clients.forEach(client => client.send(data));
+                } else {
+                    wsServer.clients.forEach(client => client.send(Date.now()));
+                }
         })
 
         ws.on("close", ()=>{
